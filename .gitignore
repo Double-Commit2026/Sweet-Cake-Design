@@ -1,0 +1,14 @@
+# Variáveis de ambiente / credenciais
+.env
+
+# Banco de dados
+backend/database/sweetcake.db
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Sistema
+.DS_Store

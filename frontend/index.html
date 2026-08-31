@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sweet Cake — Bolos decorados em Belém (Marambaia)</title>
+  <meta name="description" content="Sweet Cake: bolos decorados, bentô cakes, mini cakes, brownies e mais, feitos em Belém (Marambaia). Monte seu bolo personalizado e peça pelo WhatsApp.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Sweet Cake — Bolos decorados em Belém">
+  <meta property="og:description" content="Bolos decorados, bentô cakes e mini cakes personalizados. Peça pelo WhatsApp.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+
+  <link rel="icon" href="assets/images/logo-sweetcake.jpeg"> <!-- foto icon do link da página -->
+
+  <!-- Tipografia da marca: serifada elegante para títulos, script para toques manuscritos, sans-serif limpa para o corpo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Caveat:wght@600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/animations.css">
+
+  <script>
+    // Configuração de ambiente do front-end.
+    // Em produção, aponte para o domínio real da API.
+    window.SWEET_CAKE_API_BASE_URL = "http://127.0.0.1:5000/api";
+    // Valor inicial; é sobrescrito por /api/store-info assim que a página carrega.
+    window.SWEET_CAKE_WHATSAPP_NUMBER = "";
+  </script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Pular para o conteúdo</a>
+
+  <!-- ==========================================================================
+       Header
+       ========================================================================== -->
+  <header class="site-header">
+    <div class="container">
+      <a href="#main-content" class="brand" aria-label="Sweet Cake — página inicial">
+        <img src="assets/images/logo-sweetcake.jpeg" alt="Logotipo Sweet Cake" class="brand__logo" width="42" height="42">
+        <span class="brand__name">Sweet Cake</span>
+      </a>
+      <button type="button" id="header-cart-btn" class="header-cart-btn" aria-label="Abrir carrinho">
+        🛒 Carrinho
+        <span id="cart-count" class="cart-count" hidden>0</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- ==========================================================================
+         Hero
+         ========================================================================== -->
+    <section class="hero">
+      <div class="container">
+        <div>
+          <span class="hero__eyebrow">bolos decorados, feitos com carinho</span>
+          <h1 class="hero__title">Sweet Cake</h1>
+          <p class="hero__subtitle">
+            Bolos decorados, bentô cakes, mini cakes e doces em Belém (Marambaia).
+            Monte o seu bolo do seu jeito ou escolha um dos nossos clássicos —
+            e peça direto pelo WhatsApp.
+          </p>
+          <div class="hero__actions">
+            <a href="#catalogo" class="btn btn--primary">Ver catálogo</a>
+            <a href="#bolos-personalizados" class="btn btn--outline">Montar meu bolo</a>
+          </div>
+          <div class="hero__meta">
+            <span class="hero__meta-item">📍 Marambaia, Belém — PA</span>
+            <span class="hero__meta-item" id="store-horario">🕒 Segunda a sábado, 9h às 20h</span>
+          </div>
+        </div>
+        <div class="hero__visual">
+          <img src="assets/images/bolo-laco-preto.webp" alt="Bolo decorado da Sweet Cake, com laço de fita preta e detalhes em coração" loading="eager">
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         Sobre
+         ========================================================================== -->
+    <section class="about section" id="sobre">
+      <div class="container">
+        <div class="about__badge-ring">
+          <img src="assets/images/logo-sweetcake.jpeg" alt="Selo da marca Sweet Cake">
+        </div>
+        <div>
+          <span class="section-eyebrow">quem somos</span>
+          <h2>Sweet Cake</h2>
+          <p>
+            Bolos decorados feitos em Belém, no bairro Marambaia. Cada bolo é preparado
+            com atenção aos detalhes — do recheio à decoração — para ocasiões especiais
+            e também para adoçar o dia a dia.
+          </p>
+          <div class="about__facts">
+            <div class="about__fact"><strong>Localização</strong>Marambaia, Belém — PA</div>
+            <div class="about__fact"><strong>Atendimento</strong>Segunda a sábado, 9h às 20h</div>
+            <div class="about__fact"><strong>Pedidos</strong>Direto pelo WhatsApp</div>
+            <div class="about__fact"><strong>Pagamento</strong><span id="store-pagamento">Cartão e Pix</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         Catálogo (delivery / iFood)
+         ========================================================================== -->
+    <section class="section" id="catalogo">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">pronta entrega</span>
+          <h2>Catálogo</h2>
+          <p>Bolos caseiros, brownies e mais — disponíveis para pedido imediato.</p>
+        </div>
+        <div id="catalog-chips" class="chip-row" role="tablist" aria-label="Filtrar por categoria"></div>
+        <div id="catalog-grid">
+          <div class="product-grid">
+            <div class="skeleton" style="aspect-ratio:4/3.6"></div>
+            <div class="skeleton" style="aspect-ratio:4/3.6"></div>
+            <div class="skeleton" style="aspect-ratio:4/3.6"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         Bolos personalizados (wizard)
+         ========================================================================== -->
+    <section class="section" id="bolos-personalizados" style="background:var(--color-surface);border-top:1px solid var(--color-border);border-bottom:1px solid var(--color-border)">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">sob encomenda</span>
+          <h2>Monte seu bolo</h2>
+          <p>Escolha o tamanho, o sabor e a decoração — o preço é calculado na hora, a cada escolha.</p>
+        </div>
+        <div id="custom-cake-grid" class="custom-cake-grid">
+          <div class="skeleton" style="height:160px"></div>
+          <div class="skeleton" style="height:160px"></div>
+          <div class="skeleton" style="height:160px"></div>
+          <div class="skeleton" style="height:160px"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         Galeria
+         ========================================================================== -->
+    <section class="section" id="galeria">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">trabalhos reais</span>
+          <h2>Alguns bolos que já saíram daqui</h2>
+          <p>Uma amostra dos nossos trabalhos personalizados.</p>
+        </div>
+        <div class="gallery-grid">
+          <figure class="gallery-item reveal">
+            <img src="assets/images/bolo-mario-bros.webp" alt="Bolo temático de aniversário infantil inspirado em Super Mario Bros, com o número 5" loading="lazy">
+            <figcaption class="gallery-item__caption">Bolo temático infantil</figcaption>
+          </figure>
+          <figure class="gallery-item reveal">
+            <img src="assets/images/bolo-aniversario-54anos.webp" alt="Bolo de aniversário branco com detalhe em verde-água e dourado" loading="lazy">
+            <figcaption class="gallery-item__caption">Bolo de aniversário</figcaption>
+          </figure>
+          <figure class="gallery-item reveal">
+            <img src="assets/images/bolo-despedida-solteira.webp" alt="Bolo para despedida de solteira, sabor morango, com ilustração e corações" loading="lazy">
+            <figcaption class="gallery-item__caption">Despedida de solteira</figcaption>
+          </figure>
+          <figure class="gallery-item reveal">
+            <img src="assets/images/bolo-tematico-heroi.webp" alt="Bolo em formato de coração com decoração temática de teia, em preto e vermelho" loading="lazy">
+            <figcaption class="gallery-item__caption">Bolo temático</figcaption>
+          </figure>
+          <figure class="gallery-item reveal">
+            <img src="assets/images/bolo-laco-preto.webp" alt="Bolo branco com laço de fita preta e corações, para aniversário" loading="lazy">
+            <figcaption class="gallery-item__caption">Bolo com laço</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         Contato / localização
+         ========================================================================== -->
+    <section class="section contact" id="contato">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow" style="color:#ffd7e4">fale com a gente</span>
+          <h2>Contato e localização</h2>
+          <p>Pedidos, dúvidas e orçamentos — direto pelo WhatsApp.</p>
+        </div>
+        <div class="contact-grid">
+          <div class="contact-card">
+            <h4>Endereço</h4>
+            <p id="store-endereco">R. J, 62 — Marambaia, Belém - PA, 66620-810</p>
+          </div>
+          <div class="contact-card">
+            <h4>Horário</h4>
+            <p>Segunda a sábado, das 9h às 20h</p>
+          </div>
+          <div class="contact-card">
+            <h4>Pagamento</h4>
+            <p>Cartão e Pix</p>
+          </div>
+          <div class="contact-card">
+            <h4>WhatsApp</h4>
+            <p><a data-whatsapp-link href="#" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline">Chamar no WhatsApp</a></p>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:28px">
+          <a data-whatsapp-link href="#" target="_blank" rel="noopener" class="btn btn--whatsapp">Fazer pedido pelo WhatsApp</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==========================================================================
+       Rodapé
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>
+        Sweet Cake — Marambaia, Belém (PA) ·
+        <a id="store-instagram-link" href="https://www.instagram.com/sweetcakeedesign" target="_blank" rel="noopener">Instagram</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       Carrinho flutuante
+       ========================================================================== -->
+  <button type="button" id="floating-cart" class="floating-cart" aria-label="Abrir carrinho">
+    <div class="floating-cart__info">
+      <span class="floating-cart__count" id="floating-cart-count">0 itens</span>
+      <span class="floating-cart__total" id="floating-cart-total">R$ 0,00</span>
+    </div>
+    <span aria-hidden="true">🛒</span>
+  </button>
+
+  <!-- Overlay compartilhado pelos bottom sheets -->
+  <div id="overlay" class="overlay"></div>
+
+  <!-- ==========================================================================
+       Carrinho (bottom sheet)
+       ========================================================================== -->
+  <div id="cart-sheet" class="sheet" role="dialog" aria-modal="true" aria-labelledby="cart-sheet-title" aria-hidden="true">
+    <div class="sheet__header">
+      <h2 id="cart-sheet-title">Seu carrinho</h2>
+      <button type="button" id="cart-sheet-close" class="sheet__close" aria-label="Fechar carrinho">✕</button>
+    </div>
+    <div class="sheet__body" id="cart-sheet-body"></div>
+    <div class="sheet__footer" id="cart-sheet-footer"></div>
+  </div>
+
+  <!-- ==========================================================================
+       Wizard de personalização (bottom sheet)
+       ========================================================================== -->
+  <div id="wizard-sheet" class="sheet" role="dialog" aria-modal="true" aria-labelledby="wizard-sheet-title" aria-hidden="true">
+    <div class="sheet__header">
+      <h2 id="wizard-sheet-title">Montar bolo</h2>
+      <button type="button" id="wizard-sheet-close" class="sheet__close" aria-label="Fechar">✕</button>
+    </div>
+    <div class="sheet__body" id="wizard-sheet-body"></div>
+    <div class="sheet__footer" id="wizard-sheet-footer"></div>
+  </div>
+
+  <!-- ==========================================================================
+     Detalhes do produto (bottom sheet)
+     ========================================================================== -->
+  <div id="product-sheet" class="sheet" role="dialog" aria-modal="true" aria-labelledby="product-sheet-title" aria-hidden="true">
+    <div class="sheet__header">
+      <h2 id="product-sheet-title">Produto</h2>
+      <button type="button" id="product-sheet-close" class="sheet__close" aria-label="Fechar">✕</button>
+    </div>
+    <div class="sheet__body" id="product-sheet-body"></div>
+    <div class="sheet__footer" id="product-sheet-footer"></div>
+  </div>
+
+  <!-- Toast de feedback -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/whatsapp.js"></script>
+  <script src="js/catalog.js"></script>
+  <script src="js/product-wizard.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

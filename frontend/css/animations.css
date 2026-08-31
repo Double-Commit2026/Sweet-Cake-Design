@@ -1,0 +1,49 @@
+/* ==========================================================================
+   Animações
+   Sutis, curtas e desativadas quando prefers-reduced-motion está ativo
+   (a regra global já está em style.css). Usadas para dar vida a entradas
+   de seção, cards do catálogo e feedback ao adicionar itens ao carrinho.
+   ========================================================================== */
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+}
+
+.reveal.is-visible {
+  opacity: 1;   /*<-- garante que o card permaneça visível mesmo se outra animação se sobrepor*/
+  animation: fade-up 0.5s ease;
+}
+
+/* Pequeno atraso escalonado para grids de card (aplicado via JS com nth-child) */
+.product-grid .reveal.is-visible:nth-child(2) { animation-delay: 0.04s; }
+.product-grid .reveal.is-visible:nth-child(3) { animation-delay: 0.08s; }
+.product-grid .reveal.is-visible:nth-child(4) { animation-delay: 0.12s; }
+
+@keyframes pop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.cart-count.is-bumped {
+  animation: pop 0.35s ease;
+}
+
+@keyframes cake-added-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(194, 55, 104, 0.35); }
+  100% { box-shadow: 0 0 0 14px rgba(194, 55, 104, 0); }
+}
+
+.product-card.is-added,
+.custom-cake-card.is-added {
+  animation: cake-added-pulse 0.6s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; animation: none !important; }
+}
