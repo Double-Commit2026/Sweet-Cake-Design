@@ -9,7 +9,7 @@
  * retornou.
  */
 
-const API_BASE_URL = window.SWEET_CAKE_API_BASE_URL || "http://127.0.0.1:5000/api";
+const API_BASE_URL = window.SWEET_CAKE_API_BASE_URL || "https://sweet-cake-design-eh5j.onrender.com";
 
 async function apiRequest(path, options = {}) {
   let response;
