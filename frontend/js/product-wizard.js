@@ -1,4 +1,3 @@
-
 /**
  * product-wizard.js
  * Fluxo de configuração dos bolos por encomenda (Bentô, Mini Cake, Bolo
