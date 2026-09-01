@@ -26,6 +26,9 @@ app.register_blueprint(pricing.bp)
 app.register_blueprint(cart.bp)
 app.register_blueprint(store_info.bp)
 
+
+# Teste da API
+
 @app.get("/")
 def home():
     return jsonify({
