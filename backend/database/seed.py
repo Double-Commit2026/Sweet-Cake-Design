@@ -60,10 +60,11 @@ def seed():
             ("bolo-vulcao", "Bolo Vulcão", "delivery", 3),
             ("bolos-caseiros", "Bolos Caseiros", "delivery", 4),
             ("pao-de-batata", "Pão de Batata", "delivery", 5),
-            ("bento-cake", "Bentô Cake", "encomenda", 6),
-            ("mini-cake", "Mini Cake", "encomenda", 7),
-            ("bolo-redondo", "Bolo Redondo", "encomenda", 8),
-            ("bolo-coracao", "Bolo Coração", "encomenda", 9),
+            ("mini-cake-d", "Mini Cake", "delivery", 6),
+            ("bento-cake", "Bentô Cake", "encomenda", 7),
+            ("mini-cake-e", "Mini Cake", "encomenda", 8),
+            ("bolo-redondo", "Bolo Redondo", "encomenda", 9),
+            ("bolo-coracao", "Bolo Coração", "encomenda", 10),
         ]
         cat_ids = {}
         for slug, nome, tipo, ordem in categorias:
@@ -101,6 +102,7 @@ def seed():
             "O nosso delicioso brownie, cortado em cubos, com uma camada generosa de Ninho com Nutella.",
             28.00, 
             ordem=1,
+            imagem_url="assets/images/afogado-brownie.jpeg"
             )
 
         add_fixed_product(
@@ -117,7 +119,8 @@ def seed():
             "Sanduíche de Brownie Recheado",
             "Duas camadas de brownie macio com recheio generoso de chocolate e Ninho super cremoso.",
             17.50, 
-            ordem=3
+            ordem=3,
+            imagem_url="assets/images/sand-brownie.jpeg"
             )
         
         add_fixed_product(
@@ -126,7 +129,8 @@ def seed():
             "Bolo casadinho super macio, coberto com chocolate ao leite e creme especial, finalizado "
             "com granulado gourmet, acompanhado de 4 quadradinhos de brownie artesanal.",
             26.90, 
-            ordem=4
+            ordem=4,
+            imagem_url="assets/images/duo-brownie.jpeg"
             )
         
         add_fixed_product(
@@ -134,7 +138,8 @@ def seed():
             "Fatia de Brownie",
             "Brownie super chocolatudo com a cobertura que você escolher.",
             25.00, 
-            ordem=5
+            ordem=5,
+            imagem_url="assets/images/fatia-brownie.jpeg"
             )
         
         add_fixed_product(
@@ -151,7 +156,8 @@ def seed():
             "Mini vulcão chocobrownie",
             "Mini bolo chocolate brownie: massa úmida e intensa de chocolate, com pedaços de brownie.",
             25.90, 
-            ordem=1
+            ordem=1,
+            imagem_url="assets/images/chocobrownie.jpeg"
             )
 
         # Bolo Vulcão (destaque no iFood)
@@ -173,6 +179,7 @@ def seed():
             "Massa fofa, calda artesanal de fruta fresca. Sem conservantes.", 
             34.00, 
             ordem=1,
+            imagem_url="assets/images/bolo-maracuja.jpeg"
             )
         
         add_fixed_product(
@@ -190,7 +197,7 @@ def seed():
             "Bolo caseiro, massa fofinha para acompanhar aquele café.", 
             29.00, 
             ordem=3,            
-            imagem_url="assets/images/bolo-caseiro.jpeg"
+            imagem_url="assets/images/bolo-mesclado.jpeg"
             )
         
         add_fixed_product(
@@ -241,6 +248,17 @@ def seed():
             destaque=True, 
             ordem=1,
             imagem_url="assets/images/pao-de-batata.jpeg"
+            )
+
+        # Mine cake
+        add_fixed_product(
+            "mini-cake-d", 
+            "Mini Cake",
+            "Mine cake de limão, com raspas de limão",
+            65.00, 
+            preco_promo=85.00,
+            ordem=1,
+            imagem_url="assets/images/mini-cake.jpeg"
             )
 
         # ------------------------------------------------------------------
@@ -336,7 +354,7 @@ def seed():
 
         # --- Mini cake ---
         p = add_configurable_product(
-            "mini-cake", "Mini Cake",
+            "mini-cake-e", "Mini Cake",
             "Bolo pequeno com decoração mais sofisticada, com bordinha e lacinhos.")
         add_variant(p, "Redondo 10cm", 60.00, ordem=1)
         add_variant(p, "Redondo 12cm", 70.00, ordem=2)
