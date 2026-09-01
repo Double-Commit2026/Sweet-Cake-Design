@@ -26,6 +26,12 @@ app.register_blueprint(pricing.bp)
 app.register_blueprint(cart.bp)
 app.register_blueprint(store_info.bp)
 
+@app.get("/")
+def home():
+    return jsonify({
+        "status": "ok",
+        "message": "Sweet Cake API está funcionando"
+    })
 
 @app.get("/api/health")
 def health_check():
