@@ -26,17 +26,9 @@ app.register_blueprint(pricing.bp)
 app.register_blueprint(cart.bp)
 app.register_blueprint(store_info.bp)
 
-@app.get("/")
-def home():
-    return jsonify({
-        "status": "ok",
-        "message": "Sweet Cake API está funcionando"
-    })
-
 @app.get("/api/health")
 def health_check():
     return jsonify({"status": "ok"})
-
 
 # Tratamento genérico de erros: nunca expõe detalhes técnicos (stack trace,
 # nomes de tabela, etc.) ao usuário final — só uma mensagem amigável.
