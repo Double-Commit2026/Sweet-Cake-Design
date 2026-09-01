@@ -163,7 +163,7 @@ def seed():
             preco_promo=150.00, 
             destaque=True, 
             ordem=1,
-            imagem_url="assets/images/bolo-vulcao.jpeg"
+            imagem_url="assets/images/bolo-vulcao-choca.jpeg"
             )
 
         # Bolos Caseiros
@@ -173,7 +173,6 @@ def seed():
             "Massa fofa, calda artesanal de fruta fresca. Sem conservantes.", 
             34.00, 
             ordem=1,
-            imagem_url="assets/images/bolo-caseiro.jpeg"
             )
         
         add_fixed_product(
@@ -181,7 +180,8 @@ def seed():
             "Bolo formigueiro 20cm",
             "Bolo caseiro, massa fofinha, pronta para aquele café.", 
             29.00, 
-            ordem=2
+            ordem=2,
+            imagem_url="assets/images/caseiro-formiga.jpeg"
             )
         
         add_fixed_product(
@@ -189,7 +189,8 @@ def seed():
             "Bolo mesclado 20cm",
             "Bolo caseiro, massa fofinha para acompanhar aquele café.", 
             29.00, 
-            ordem=3
+            ordem=3,            
+            imagem_url="assets/images/bolo-caseiro.jpeg"
             )
         
         add_fixed_product(
@@ -206,7 +207,8 @@ def seed():
             "Bolo amanteigado (20cm)",
             "Massa fofinha e amanteigada, com gostinho caseiro. Serve 4 pessoas.", 
             32.00,
-            ordem=5
+            ordem=5,
+            imagem_url="assets/images/bolo-caseiro-manteiga.jpeg"
             )
         
         add_fixed_product(
@@ -214,7 +216,8 @@ def seed():
             "Romeu e Julieta (20cm)",
             "Bolo de massa de queijo com goiabada. Serve 4 pessoas.", 
             32.00, 
-            ordem=6
+            ordem=6,
+            imagem_url="assets/images/romeu-julieta.jpeg"
             )
         
         add_fixed_product(
@@ -229,9 +232,16 @@ def seed():
         
 
         # Pão de batata
-        add_fixed_product("pao-de-batata", "Pão (20cm)",
-                           "Receita caseira de pão de batata com creme de queijo. Serve 4 pessoas.",
-                           65.00, preco_promo=85.00, destaque=True, ordem=1)
+        add_fixed_product(
+            "pao-de-batata", 
+            "Pão (20cm)",
+            "Receita caseira de pão de batata com creme de queijo. Serve 4 pessoas.",
+            65.00, 
+            preco_promo=85.00, 
+            destaque=True, 
+            ordem=1,
+            imagem_url="assets/images/pao-de-batata.jpeg"
+            )
 
         # ------------------------------------------------------------------
         # Produtos configuráveis (cardápio de encomendas 2026)
