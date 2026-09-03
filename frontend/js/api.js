@@ -9,7 +9,7 @@
  * retornou.
  */
 
-const API_BASE_URL = window.SWEET_CAKE_API_BASE_URL || "https://sweet-cake-design-eh5j.onrender.com";
+const API_BASE_URL = window.SWEET_CAKE_API_BASE_URL || "http://localhost:5000";
 
 async function apiRequest(path, options = {}) {
   let response;
@@ -44,31 +44,31 @@ class ApiError extends Error {
 
 const api = {
   getCategories() {
-    return apiRequest("/categories");
+    return apiRequest("/api/categories");
   },
   getProducts({ categoria, destaque } = {}) {
     const params = new URLSearchParams();
     if (categoria) params.set("categoria", categoria);
     if (destaque) params.set("destaque", "true");
     const query = params.toString() ? `?${params.toString()}` : "";
-    return apiRequest(`/products${query}`);
+    return apiRequest(`/api/products${query}`);
   },
   getProduct(id) {
-    return apiRequest(`/products/${id}`);
+    return apiRequest(`/api/products/${id}`);
   },
   calculatePrice({ product_id, variant_id, option_ids, quantidade }) {
-    return apiRequest("/pricing/calculate", {
+    return apiRequest("/api/pricing/calculate", {
       method: "POST",
       body: JSON.stringify({ product_id, variant_id, option_ids, quantidade }),
     });
   },
   validateCart(itens) {
-    return apiRequest("/cart/validate", {
+    return apiRequest("/api/cart/validate", {
       method: "POST",
       body: JSON.stringify({ itens }),
     });
   },
   getStoreInfo() {
-    return apiRequest("/store-info");
+    return apiRequest("/api/store-info");
   },
 };
