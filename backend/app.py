@@ -17,8 +17,15 @@ from config.settings import settings
 from database.db import init_db
 from routes import categories, products, pricing, cart, store_info
 
+#Inicializa o init_db()
+init_db()
+
 app = Flask(__name__)
-CORS(app, origins=[settings.FRONTEND_ORIGIN])
+CORS(
+    app, 
+    origins=[settings.FRONTEND_ORIGIN]
+    if settings.FRONTEND_ORIGIN != "*" else "*"
+)
 
 app.register_blueprint(categories.bp)
 app.register_blueprint(products.bp)
@@ -31,8 +38,8 @@ app.register_blueprint(store_info.bp)
 @app.get("/")
 def home():
     return jsonify({
-        "status": "ok",
-        "message": "Sweet Cake API está funcionando"
+        "status": "online",
+        "message": "Sweet Cake Design API"
     })
 
 @app.get("/api/health")
@@ -49,5 +56,7 @@ def erro_generico(e):
 
 
 if __name__ == "__main__":
-    init_db()  # garante que as tabelas existem antes de subir o servidor
-    app.run(debug=settings.DEBUG, port=5000)
+    app.run(
+        debug=settings.DEBUG, 
+        port=5000
+    )
