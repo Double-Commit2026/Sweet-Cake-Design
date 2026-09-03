@@ -32,7 +32,7 @@ class Settings:
     WHATSAPP_NUMBER = os.getenv("WHATSAPP_NUMBER") or ""
 
     # Origem do front-end autorizada a consumir a API (CORS).
-    FRONTEND_ORIGIN = os.getenv("FRONTEND_ORIGIN") or "*"
+    FRONTEND_ORIGIN = os.getenv("FRONTEND_ORIGIN")
 
     # development | production
     ENV = os.getenv("FLASK_ENV", "development")
