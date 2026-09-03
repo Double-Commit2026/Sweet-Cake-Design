@@ -18,7 +18,7 @@ from database.db import init_db
 from routes import categories, products, pricing, cart, store_info
 
 app = Flask(__name__)
-CORS(app, origins=[settings.FRONTEND_ORIGIN] if settings.FRONTEND_ORIGIN != "*" else "*")
+CORS(app, origins=[settings.FRONTEND_ORIGIN])
 
 app.register_blueprint(categories.bp)
 app.register_blueprint(products.bp)
