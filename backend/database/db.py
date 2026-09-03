@@ -8,12 +8,14 @@ o resto da aplicação não sabe qual banco está por trás.
 """
 import sqlite3
 from contextlib import contextmanager
+from pathlib import Path
 
 from config.settings import settings
 
 
 def get_connection():
     """Abre uma conexão com o banco, com linhas acessíveis por nome de coluna."""
+    Path(settings.DATABASE_PATH).parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(settings.DATABASE_PATH)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA foreign_keys = ON")
