@@ -1083,5 +1083,27 @@ p { margin: 0 0 1em; color: var(--color-text); }
   line-height: 1.6;
 }
 
+.search{
+  display: flex;
+  align-items: center;
+  border: 1px solid #e8eded;
+  background-color: #00000006;
+  width: 240px;
+  margin: 20px auto;
+  border-radius: 30px;
+  padding: 5px 10px;;
+  color: #b3432f;
+}
 
+#searchInput{
+  padding : 8px;
+  border: none;
+  background-color:transparent;
+  width: 100%;
+  outline: none;
+}
+
+.search label{
+  height: 25px;
+}
 

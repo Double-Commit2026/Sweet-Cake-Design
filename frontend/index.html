@@ -18,6 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Caveat:wght@600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=search" />
 
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/responsive.css">
@@ -43,6 +44,14 @@
         <img src="assets/images/logo-sweetcake.jpeg" alt="Logotipo Sweet Cake" class="brand__logo" width="42" height="42">
         <span class="brand__name">Sweet Cake</span>
       </a>
+
+      <div class = "search">
+        <label for ="searchInput">
+          <span class = "material-symbols-outlined"> search </span>
+        </label>
+        <input type="text" id ="searchInput" placeholder = "Pesquisar"/>
+      </div>
+
       <button type="button" id="header-cart-btn" class="header-cart-btn" aria-label="Abrir carrinho">
         🛒 Carrinho
         <span id="cart-count" class="cart-count" hidden>0</span>
