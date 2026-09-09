@@ -11,6 +11,7 @@
   .brand__name { font-size: 1.05rem; }
 }
 
+
 /* Tablet e acima (>= 768px) ------------------------------------------------ */
 @media (min-width: 768px) {
   .section { padding: 88px 0; }
@@ -52,3 +53,4 @@
 
   .site-header .brand__name { font-size: 1.05rem; }
 }
+
