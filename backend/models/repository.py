@@ -6,8 +6,6 @@ Todos os preços são armazenados em centavos (inteiros) no banco e
 convertidos para reais (float, 2 casas) somente na borda, ao montar a
 resposta da API.
 """
-from database.db import get_db
-
 
 def centavos_para_reais(centavos):
     if centavos is None:
@@ -29,14 +27,14 @@ def list_products(conn, categoria_slug=None, apenas_destaque=False):
                c.slug AS categoria_slug, c.nome AS categoria_nome, c.tipo AS categoria_tipo
         FROM products p
         JOIN categories c ON c.id = p.categoria_id
-        WHERE p.disponivel = 1
+        WHERE p.disponivel = TRUE
     """
     params = []
     if categoria_slug:
-        query += " AND c.slug = ?"
+        query += " AND c.slug = %s"
         params.append(categoria_slug)
     if apenas_destaque:
-        query += " AND p.destaque = 1"
+        query += " AND p.destaque = TRUE"
     query += " ORDER BY c.ordem, p.ordem"
 
     rows = conn.execute(query, params).fetchall()
@@ -60,7 +58,7 @@ def get_product_detail(conn, product_id):
     p = conn.execute(
         """SELECT p.*, c.slug AS categoria_slug, c.nome AS categoria_nome, c.tipo AS categoria_tipo
            FROM products p JOIN categories c ON c.id = p.categoria_id
-           WHERE p.id = ? AND p.disponivel = 1""",
+           WHERE p.id = %s AND p.disponivel = TRUE""",
         (product_id,),
     ).fetchone()
     if not p:
@@ -80,7 +78,7 @@ def get_product_detail(conn, product_id):
     if p["tipo_preco"] == "configuravel":
         variantes = conn.execute(
             """SELECT id, nome, preco_base, serve_pessoas FROM product_variants
-               WHERE product_id = ? AND disponivel = 1 ORDER BY ordem""",
+               WHERE product_id = %s AND disponivel = TRUE ORDER BY ordem""",
             (product_id,),
         ).fetchall()
         produto["variantes"] = [
@@ -91,14 +89,14 @@ def get_product_detail(conn, product_id):
 
         grupos = conn.execute(
             """SELECT id, nome, obrigatorio FROM option_groups
-               WHERE product_id = ? ORDER BY ordem""",
+               WHERE product_id = %s ORDER BY ordem""",
             (product_id,),
         ).fetchall()
         produto["grupos_opcoes"] = []
         for g in grupos:
             opcoes = conn.execute(
                 """SELECT id, nome, preco_adicional, requer_orcamento FROM options
-                   WHERE option_group_id = ? AND disponivel = 1 ORDER BY ordem""",
+                   WHERE option_group_id = %s AND disponivel = TRUE ORDER BY ordem""",
                 (g["id"],),
             ).fetchall()
             produto["grupos_opcoes"].append({

@@ -17,7 +17,7 @@ from pathlib import Path
 
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
-from database.db import get_db, init_db  # noqa: E402
+from database.db import get_db
 
 
 def reais(valor):
@@ -26,13 +26,23 @@ def reais(valor):
 
 
 def seed():
-    init_db()
     with get_db() as conn:
         cur = conn.cursor()
 
         # Limpa dados antigos (idempotente) respeitando FKs.
         for tabela in ["options", "option_groups", "product_variants", "products", "categories", "store_info"]:
-            cur.execute(f"DELETE FROM {tabela}")
+            cur.execute(
+                """
+                TRUNCATE TABLE
+                    options,
+                    option_groups,
+                    product_variants,
+                    products,
+                    categories,
+                    store_info
+                RESTART IDENTITY CASCADE
+                """
+            )
 
         # ------------------------------------------------------------------
         # Informações da loja (endereço, WhatsApp, horário, pagamento)
@@ -46,7 +56,7 @@ def seed():
             "instagram": "https://www.instagram.com/sweetcakeedesign",
         }
         cur.executemany(
-            "INSERT INTO store_info (chave, valor) VALUES (?, ?)",
+            "INSERT INTO store_info (chave, valor) VALUES (%s, %s)",
             list(store_info.items()),
         )
 
@@ -69,10 +79,14 @@ def seed():
         cat_ids = {}
         for slug, nome, tipo, ordem in categorias:
             cur.execute(
-                "INSERT INTO categories (slug, nome, tipo, ordem) VALUES (?, ?, ?, ?)",
+                """
+                INSERT INTO categories (slug, nome, tipo, ordem) 
+                VALUES (%s, %s, %s, %s) 
+                RETURNING id
+                """,
                 (slug, nome, tipo, ordem),
             )
-            cat_ids[slug] = cur.lastrowid
+            cat_ids[slug] = cur.fetchone()["id"]
 
         # ------------------------------------------------------------------
         # Produtos de preço fixo (catálogo iFood)
@@ -81,19 +95,21 @@ def seed():
             cur.execute(
                 """INSERT INTO products
                    (categoria_id, nome, descricao, tipo_preco, preco_base, preco_promocional, imagem_url, destaque, ordem)
-                   VALUES (?, ?, ?, 'fixo', ?, ?, ?, ?, ?)""",
+                   VALUES (%s, %s, %s, 'fixo', %s, %s, %s, %s, %s)
+                   RETURNING id
+                   """,
                 (
                     cat_ids[slug_categoria], 
                     nome, 
                     descricao, 
                     reais(preco), 
-                    reais(preco_promo) if preco_promo else None, 
+                    reais(preco_promo) if preco_promo is not None else None, 
                     imagem_url, 
-                    1 if destaque else 0, 
+                    destaque, 
                     ordem,
                 ),
             )
-            return cur.lastrowid
+            return cur.fetchone()["id"]
 
         # Brownie
         add_fixed_product(
@@ -266,32 +282,52 @@ def seed():
         # ------------------------------------------------------------------
         def add_configurable_product(slug_categoria, nome, descricao, ordem=1):
             cur.execute(
-                """INSERT INTO products
-                   (categoria_id, nome, descricao, tipo_preco, destaque, ordem)
-                   VALUES (?, ?, ?, 'configuravel', 0, ?)""",
-                (cat_ids[slug_categoria], nome, descricao, ordem),
+                """
+                INSERT INTO products
+                (categoria_id, nome, descricao, tipo_preco, destaque, ordem)
+                VALUES (%s, %s, %s, 'configuravel', FALSE, %s)
+                RETURNING id
+                """,
+                (
+                    cat_ids[slug_categoria], 
+                    nome, 
+                    descricao, 
+                    ordem
+                ),
             )
-            return cur.lastrowid
+            return cur.fetchone()["id"]
 
         def add_variant(product_id, nome, preco, serve=None, ordem=0):
             cur.execute(
-                """INSERT INTO product_variants (product_id, nome, preco_base, serve_pessoas, ordem)
-                   VALUES (?, ?, ?, ?, ?)""",
+                """
+                INSERT INTO product_variants (product_id, nome, preco_base, serve_pessoas, ordem)
+                VALUES (%s, %s, %s, %s, %s)
+                """,
                 (product_id, nome, reais(preco), serve, ordem),
             )
 
         def add_option_group(product_id, nome, obrigatorio=True, ordem=0):
             cur.execute(
-                "INSERT INTO option_groups (product_id, nome, obrigatorio, ordem) VALUES (?, ?, ?, ?)",
-                (product_id, nome, 1 if obrigatorio else 0, ordem),
+                "INSERT INTO option_groups (product_id, nome, obrigatorio, ordem) VALUES (%s, %s, %s, %s) RETURNING id",
+                (
+                    product_id, 
+                    nome, 
+                    obrigatorio, 
+                    ordem
+                ),
             )
-            return cur.lastrowid
+            return cur.fetchone()["id"]
 
         def add_option(group_id, nome, preco_adicional=0, requer_orcamento=False, ordem=0):
             cur.execute(
                 """INSERT INTO options (option_group_id, nome, preco_adicional, requer_orcamento, ordem)
-                   VALUES (?, ?, ?, ?, ?)""",
-                (group_id, nome, reais(preco_adicional), 1 if requer_orcamento else 0, ordem),
+                   VALUES (%s, %s, %s, %s, %s)""",
+                (
+                    group_id, nome, 
+                    reais(preco_adicional), 
+                    requer_orcamento, 
+                    ordem
+                ),
             )
 
         MASSA = [("Amanteigada", 0), ("Cacau", 0)]

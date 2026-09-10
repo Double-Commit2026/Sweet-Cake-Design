@@ -14,11 +14,8 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 
 from config.settings import settings
-from database.db import init_db
 from routes import categories, products, pricing, cart, store_info
 
-#Inicializa o init_db()
-init_db()
 
 app = Flask(__name__)
 CORS(
