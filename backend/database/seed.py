@@ -29,7 +29,7 @@ def seed():
     with get_db() as conn:
         cur = conn.cursor()
 
-        # Limpa dados antigos (idempotente) respeitando FKs.
+        # Limpa dados antigos (idempotente) respeitando FKs. <-- tomar cuidado ao executar esse bloco, executar apenas se for necessário em ambiente de produção.
         for tabela in ["options", "option_groups", "product_variants", "products", "categories", "store_info"]:
             cur.execute(
                 """
