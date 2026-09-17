@@ -13,7 +13,9 @@
 
 /* Tablet e acima (>= 768px) ------------------------------------------------ */
 @media (min-width: 768px) {
-  .section { padding: 88px 0; }
+  .section { 
+    padding: 88px 0; 
+  }
 
   .sheet {
     left: auto;
@@ -22,6 +24,7 @@
     border-radius: var(--radius-lg);
     max-height: 82vh;
     width: 420px;
+    transform: translateY(calc(100% + 24px)); /* Corrige o bug da barra flutuante */
   }
 
   .floating-cart {

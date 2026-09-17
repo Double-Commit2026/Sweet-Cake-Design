@@ -86,11 +86,22 @@ const Checkout = {
 };
 
 const Toast = {
-  show(mensagem, duracaoMs = 3200) {
+    show(mensagem, duracaoMs = 3200) {
     const el = document.getElementById("toast");
     el.textContent = mensagem;
+
+    el.classList.remove("is-hiding");
     el.classList.add("is-visible");
+
     clearTimeout(this._timer);
-    this._timer = setTimeout(() => el.classList.remove("is-visible"), duracaoMs);
+    clearTimeout(this._hideTimer);
+
+    this._timer = setTimeout(() => {
+      el.classList.add("is-hiding");
+
+      this._hideTimer = setTimeout(() => {
+        el.classList.remove("is-visible", "is-hiding");
+      }, 300);
+    }, duracaoMs);
   },
 };
