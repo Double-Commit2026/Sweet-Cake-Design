@@ -156,7 +156,7 @@ def seed():
             "Brownie super chocolatudo com a cobertura que você escolher.",
             25.00, 
             ordem=5,
-            imagem_url="assets/images/fatia-brownie.webp"
+            imagem_url="assets/images/fatia-brownie.jpeg"
             )
         
         add_fixed_product(
