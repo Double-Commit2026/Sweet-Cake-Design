@@ -127,7 +127,8 @@ def seed():
             "7 quadradinhos de brownie artesanal, com muito chocolate, casquinha crocante por fora e "
             "textura macia e úmida por dentro. Acompanha um potinho de Nutella. A partir de R$ 27,00.",
             27.00, 
-            ordem=2
+            ordem=2,
+            imagem_url="assets/images/supreme_nutella.webp"
             )
         
         add_fixed_product(
@@ -155,7 +156,7 @@ def seed():
             "Brownie super chocolatudo com a cobertura que você escolher.",
             25.00, 
             ordem=5,
-            imagem_url="assets/images/fatia-brownie.jpeg"
+            imagem_url="assets/images/fatia-brownie.webp"
             )
         
         add_fixed_product(
@@ -163,7 +164,8 @@ def seed():
             "Marmita de Brownie (180g)",
             "Brownie cremoso feito com chocolate 50% e cobertura com granulado.",
             22.00, 
-            ordem=6
+            ordem=6,
+            imagem_url="assets/images/marmita_brownie.webp"
             )
 
         # Mini Vulcões
@@ -222,7 +224,8 @@ def seed():
             "3 fatias de bolo fofinho e macio, com uma porção generosa de cobertura cremosa de "
             "chocolate ou Ninho, servida à parte. Serve 1 pessoa.", 
             15.00, 
-            ordem=4
+            ordem=4,
+            imagem_url="assets/images/fatias_cobertura.jpeg"
             )
         
         add_fixed_product(
@@ -250,7 +253,8 @@ def seed():
             58.50, 
             preco_promo=78.00, 
             destaque=True, 
-            ordem=7
+            ordem=7,
+            imagem_url="assets/images/bolo_cobertura.webp"
             )
         
 
