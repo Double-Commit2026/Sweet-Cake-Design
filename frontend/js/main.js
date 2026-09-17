@@ -8,6 +8,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
   Cart.load();
   CartUI.init();
+  Search.init();
 
   document.getElementById("overlay").addEventListener("click", () => ProductWizard.close());
   document.getElementById("wizard-sheet-close").addEventListener("click", () => ProductWizard.close());

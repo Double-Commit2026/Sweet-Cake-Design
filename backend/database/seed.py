@@ -19,7 +19,6 @@ sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 from database.db import get_db
 
-
 def reais(valor):
     """Converte um valor em reais (float) para centavos (int) — evita erros de ponto flutuante."""
     return round(valor * 100)
