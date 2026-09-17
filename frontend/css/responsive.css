@@ -41,11 +41,17 @@
 /* Header a partir daqui: busca com largura fixa, ao lado da logo/carrinho */
 @media (min-width: 640px) {
   .search {
-    flex: 0 1 240px;
+    flex: 0 1 320px;
     margin: 0 16px;
   }
 }
 
+/* Telas largas: a busca pode respirar mais, já que sobra espaço no header */
+@media (min-width: 1024px) {
+  .search {
+    flex: 0 1 420px;
+  }
+}
 
 /* Tablet e acima (>= 768px) ------------------------------------------------ */
 @media (min-width: 768px) {
