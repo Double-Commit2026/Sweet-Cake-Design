@@ -225,7 +225,7 @@ def seed():
             "chocolate ou Ninho, servida à parte. Serve 1 pessoa.", 
             15.00, 
             ordem=4,
-            imagem_url="assets/images/fatias_cobertura.jpeg"
+            imagem_url="assets/images/fatias_cobertura.webp"
             )
         
         add_fixed_product(
