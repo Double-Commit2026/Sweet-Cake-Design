@@ -186,13 +186,12 @@ function revealOnScroll(elements) {
  */
 const productDetail = {
   produtoAtual: null,
+  quantidade: 1,
 
   open(produto) {
     this.produtoAtual = produto;
+    this.quantidade = 1;
     document.getElementById("product-sheet-title").textContent = produto.nome;
-
-    const precoAtual = CartUI.formatBRL(produto.preco);
-    const precoAntigo = produto.preco_promocional ? CartUI.formatBRL(produto.preco_promocional) : null;
 
     document.getElementById("product-sheet-body").innerHTML = `
       <div class="product-detail__image">
@@ -202,22 +201,53 @@ const productDetail = {
       <p class="product-detail__desc">${produto.descricao || "Sem descrição disponível."}</p>
     `;
 
+    this._renderFooter();
+
+    document.getElementById("overlay").classList.add("is-open");
+    const sheet = document.getElementById("product-sheet");
+    sheet.classList.add("is-open");
+    sheet.setAttribute("aria-hidden", "false");
+  },
+
+  _renderFooter() {
+    const produto = this.produtoAtual;
+    const precoAntigo = produto.preco_promocional ? CartUI.formatBRL(produto.preco_promocional) : null;
+    const subtotal = CartUI.formatBRL(produto.preco * this.quantidade);
+
     document.getElementById("product-sheet-footer").innerHTML = `
+      <div class="wizard-quantity">
+        <span class="wizard-step__label" style="margin:0">Quantidade</span>
+        <div class="cart-item__qty">
+          <button type="button" id="product-qty-dec" aria-label="Diminuir quantidade">−</button>
+          <span id="product-qty-value">${this.quantidade}</span>
+          <button type="button" id="product-qty-inc" aria-label="Aumentar quantidade">+</button>
+        </div>
+      </div>
       <div class="wizard-footer">
         <div class="wizard-footer__price">
-          <small>Preço</small>
-          <strong>${precoAntigo ? `<span class="price-strike">${precoAntigo}</span>` : ""}${precoAtual}</strong>
+          <small>Total</small>
+          <strong>${precoAntigo && this.quantidade === 1 ? `<span class="price-strike">${precoAntigo}</span>` : ""}${subtotal}</strong>
         </div>
         <button type="button" id="product-detail-add-btn" class="btn btn--primary">Adicionar ao carrinho</button>
       </div>
     `;
+
+    document.getElementById("product-qty-dec").addEventListener("click", () => {
+      if (this.quantidade <= 1) return;
+      this.quantidade -= 1;
+      this._renderFooter();
+    });
+    document.getElementById("product-qty-inc").addEventListener("click", () => {
+      this.quantidade += 1;
+      this._renderFooter();
+    });
 
     document.getElementById("product-detail-add-btn").addEventListener("click", () => {
       Cart.addItem({
         product_id: produto.id,
         variant_id: null,
         option_ids: [],
-        quantidade: 1,
+        quantidade: this.quantidade,
         nome_exibido: produto.nome,
         detalhe_exibido: "",
         preco_exibido: produto.preco,
@@ -228,11 +258,6 @@ const productDetail = {
       Toast.show(`${produto.nome} adicionado ao carrinho.`);
       this.close();
     });
-
-    document.getElementById("overlay").classList.add("is-open");
-    const sheet = document.getElementById("product-sheet");
-    sheet.classList.add("is-open");
-    sheet.setAttribute("aria-hidden", "false");
   },
 
   close() {
@@ -242,4 +267,3 @@ const productDetail = {
     if (!document.querySelector(".sheet.is-open")) document.getElementById("overlay").classList.remove("is-open");
   },
 };
-
