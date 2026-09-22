@@ -10,14 +10,15 @@ const Search = {
   produtosPorId: {},
   debounceTimer: null,
 
-  async init() {
+    async init() {
+    this.container = document.getElementById("search");
     this.input = document.getElementById("searchInput");
     this.clearBtn = document.getElementById("searchClear");
     this.resultsEl = document.getElementById("searchResults");
     if (!this.input) return;
 
     try {
-      this.produtos = await api.getProducts(); // sem "categoria" = pronta entrega + sob encomenda
+      this.produtos = await api.getProducts();
       this.produtos.forEach((p) => (this.produtosPorId[p.id] = p));
     } catch (erro) {
       this.produtos = [];
@@ -28,6 +29,14 @@ const Search = {
       this._limparInput();
       this._esconderResultados();
       this.input.focus();
+    });
+
+    this.input.addEventListener("focus", () => {
+      if (this.input.value.trim()) this._renderResultados(this._buscar(this.input.value));
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!this.container.contains(e.target)) this._esconderResultados();
     });
   },
 
