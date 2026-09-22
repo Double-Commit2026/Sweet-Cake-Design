@@ -173,7 +173,7 @@ def seed():
             "mini-vulcoes", 
             "Mini vulcão chocobrownie",
             "Mini bolo chocolate brownie: massa úmida e intensa de chocolate, com pedaços de brownie.",
-            25.90, 
+            20.00, 
             ordem=1,
             imagem_url="assets/images/chocobrownie.jpeg"
             )
@@ -184,7 +184,6 @@ def seed():
             "Bolo Vulcão 20cm",
             "Delicioso bolo vulcão com uma irresistível cobertura, macio e com bastante recheio.",
             80.00, 
-            destaque=True, 
             ordem=1,
             imagem_url="assets/images/bolo-vulcao-choca.jpeg"
             )
@@ -250,7 +249,6 @@ def seed():
             "Bolo Com Cobertura",
             "Bolo caseiro com 150g de cobertura.", 
             50.00,  
-            destaque=True, 
             ordem=7,
             imagem_url="assets/images/bolo_cobertura.webp"
             )
@@ -263,7 +261,6 @@ def seed():
             "Receita caseira de pão de batata com creme de queijo. Serve 4 pessoas.",
             65.00, 
             preco_promo=85.00, 
-            destaque=True, 
             ordem=1,
             imagem_url="assets/images/pao-de-batata.jpeg"
             )
