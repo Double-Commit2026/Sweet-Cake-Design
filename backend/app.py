@@ -18,10 +18,16 @@ from routes import categories, products, pricing, cart, store_info
 
 
 app = Flask(__name__)
+
+raw_origins = settings.FRONTEND_ORIGIN or "*"
+origins = [origin.strip() for origin in raw_origins.split(",") if origin.strip()] if raw_origins != "*" else ["*"]
+
 CORS(
-    app, 
-    origins=[settings.FRONTEND_ORIGIN]
-    if settings.FRONTEND_ORIGIN != "*" else "*"
+    app,
+    resources={r"/api/*": {"origins": origins}},
+    supports_credentials=True,
+    allow_headers=["Content-Type", "Authorization"],
+    methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 )
 
 app.register_blueprint(categories.bp)
