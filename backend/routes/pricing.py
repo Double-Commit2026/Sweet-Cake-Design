@@ -6,6 +6,8 @@ from services.pricing_service import (
     calcular_preco_item_fixo,
     ItemIndisponivelError,
     ProdutoNaoEncontradoError,
+    ConfiguracaoInvalidaError,
+    SelecaoInvalidaError,
 )
 
 bp = Blueprint("pricing", __name__, url_prefix="/api/pricing")
@@ -40,5 +42,7 @@ def calculate():
         return jsonify({"detail": str(e)}), 404
     except ItemIndisponivelError as e:
         return jsonify({"detail": str(e)}), 409
+    except (ConfiguracaoInvalidaError, SelecaoInvalidaError) as e:
+        return jsonify({"detail": str(e)}), 400
 
     return jsonify(resultado)

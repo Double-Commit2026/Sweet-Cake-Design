@@ -75,6 +75,7 @@ def seed():
             ("mini-cake-e", "Mini Cake", "encomenda", 9),
             ("bolo-redondo", "Bolo Redondo", "encomenda", 10),
             ("bolo-coracao", "Bolo Coração", "encomenda", 11),
+            ("cento_docinhos", "Cento de docinhos", "encomenda", 12),
         ]
         cat_ids = {}
         for slug, nome, tipo, ordem in categorias:
@@ -314,13 +315,16 @@ def seed():
                 (product_id, nome, reais(preco), serve, ordem),
             )
 
-        def add_option_group(product_id, nome, obrigatorio=True, ordem=0):
+        def add_option_group(product_id, nome, obrigatorio=True, ordem=0, tipo_selecoes="unica", min_selecoes=1, max_selecoes=1):
             cur.execute(
-                "INSERT INTO option_groups (product_id, nome, obrigatorio, ordem) VALUES (%s, %s, %s, %s) RETURNING id",
+                "INSERT INTO option_groups (product_id, nome, obrigatorio, tipo_selecoes, min_selecoes, max_selecoes, ordem) VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING id",
                 (
                     product_id, 
                     nome, 
-                    obrigatorio, 
+                    obrigatorio,
+                    tipo_selecoes,
+                    min_selecoes,
+                    max_selecoes, 
                     ordem
                 ),
             )
@@ -337,6 +341,39 @@ def seed():
                     ordem
                 ),
             )
+
+        # Doces Tradicionais — R$150 o cento, cliente escolhe 3 sabores
+        doce_trad = add_configurable_product(
+            "cento_docinhos", "Doces Tradicionais",
+            "Cento de docinhos tradicionais. Escolha 3 sabores — o valor não muda.",
+            ordem=1,
+        )
+        add_variant(doce_trad, "Cento (100 unidades)", 150.00, ordem=1)
+        g = add_option_group(doce_trad, "Sabores", obrigatorio=True, tipo_selecoes="multipla", min_selecoes=3, max_selecoes=3, ordem=1)
+        for i, nome in enumerate(["Brigadeiro", "Beijinho", "Bicho de pé", "Leite Ninho", "Queijo"]):
+            add_option(g, nome, 0, ordem=i)
+
+        # Doces Gourmet — R$230 o cento, cliente escolhe 3 sabores
+        doce_gourmet = add_configurable_product(
+            "cento_docinhos", "Doces Gourmet",
+            "Cento de docinhos gourmet. Escolha 3 sabores — o valor não muda.",
+            ordem=2,
+        )
+        add_variant(doce_gourmet, "Cento (100 unidades)", 230.00, ordem=1)
+        g = add_option_group(doce_gourmet, "Sabores", obrigatorio=True, tipo_selecoes="multipla", min_selecoes=3, max_selecoes=3, ordem=1)
+        for i, nome in enumerate(["Churros", "Ninho c/ Nutella", "Casadinho", "Três Amores", "Queijo c/ Goiaba", "Cajuzinho", "Maracujá", "Oreo"]):
+            add_option(g, nome, 0, ordem=i)
+
+        # Linha Especial — R$250 o cento, cliente escolhe 3 sabores
+        doce_especial = add_configurable_product(
+            "cento_docinhos", "Linha Especial",
+            "Cento de docinhos linha especial. Escolha 3 sabores — o valor não muda.",
+            ordem=3,
+        )
+        add_variant(doce_especial, "Cento (100 unidades)", 250.00, ordem=1)
+        g = add_option_group(doce_especial, "Sabores", obrigatorio=True, tipo_selecoes="multipla", min_selecoes=3, max_selecoes=3, ordem=1)
+        for i, nome in enumerate(["Brigadeiro Colorido", "Coco queimado", "Surpresa de uva", "Café", "Olho de sogra", "Ferrero Rocher"]):
+            add_option(g, nome, 0, ordem=i)
 
         MASSA = [("Amanteigada", 0), ("Cacau", 0)]
 
