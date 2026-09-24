@@ -88,7 +88,7 @@ def get_product_detail(conn, product_id):
         ]
 
         grupos = conn.execute(
-            """SELECT id, nome, obrigatorio FROM option_groups
+            """SELECT id, nome, obrigatorio, tipo_selecoes, min_selecoes, max_selecoes FROM option_groups
                WHERE product_id = %s ORDER BY ordem""",
             (product_id,),
         ).fetchall()
@@ -103,6 +103,9 @@ def get_product_detail(conn, product_id):
                 "id": g["id"],
                 "nome": g["nome"],
                 "obrigatorio": bool(g["obrigatorio"]),
+                "tipo_selecoes":g["tipo_selecoes"],
+                "min_selecoes":g["min_selecoes"],
+                "max_selecoes":g["max_selecoes"],
                 "opcoes": [
                     {"id": o["id"], "nome": o["nome"], "preco_adicional": centavos_para_reais(o["preco_adicional"]),
                      "requer_orcamento": bool(o["requer_orcamento"])}

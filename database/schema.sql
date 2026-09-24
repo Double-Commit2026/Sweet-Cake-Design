@@ -63,6 +63,10 @@ CREATE TABLE IF NOT EXISTS option_groups (
 
     obrigatorio BOOLEAN NOT NULL DEFAULT TRUE,
 
+    tipo_selecoes TEXT NOT NULL DEFAULT 'unica' CHECK (tipo_selecoes IN ('unica', 'multipla')),
+    min_selecoes INTEGER NOT NULL DEFAULT 1,
+    max_selecoes INTEGER NOT NULL DEFAULT 1,
+    
     ordem INTEGER NOT NULL DEFAULT 0
 );
 

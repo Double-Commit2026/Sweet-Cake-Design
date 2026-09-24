@@ -12,6 +12,9 @@ from models.repository import centavos_para_reais
 class ItemIndisponivelError(Exception):
     pass
 
+class SelecaoInvalidaError(Exception):
+    pass
+
 
 class ProdutoNaoEncontradoError(Exception):
     pass
@@ -76,10 +79,16 @@ def calcular_preco_item_configuravel(conn, product_id, variant_id, option_ids, q
     if not variante["disponivel"]:
         raise ItemIndisponivelError(f"'{variante['nome']}' está indisponível no momento.")
 
+    grupos = conn.execute(
+    "SELECT id, nome, obrigatorio, min_selecoes, max_selecoes FROM option_groups WHERE product_id = %s",
+    (product_id,),
+    ).fetchall()
+
     total_centavos = variante["preco_base"]
     opcoes_escolhidas = []
     requer_orcamento = False
     grupos_escolhidos = set()
+    contagem_por_grupo = {}
 
     for option_id in option_ids:
         opcao = conn.execute(
@@ -90,19 +99,24 @@ def calcular_preco_item_configuravel(conn, product_id, variant_id, option_ids, q
                 o.preco_adicional,
                 o.requer_orcamento,
                 o.disponivel,
+                g.id AS grupo_id,
                 o.option_group_id,
-                g.nome AS grupo_nome
-               FROM options o
-               JOIN option_groups g ON g.id = o.option_group_id
-               WHERE o.id = %s
-                AND g.product_id = %s
+                g.nome AS grupo_nome,
+                g.tipo_selecoes
+            FROM options o
+            JOIN option_groups g ON g.id = o.option_group_id
+            WHERE o.id = %s
+            AND g.product_id = %s
             """,
             (option_id, product_id),
         ).fetchone()
         if not opcao:
             raise ProdutoNaoEncontradoError(f"Opção {option_id} inválida para este produto.")
         
-        if opcao["option_group_id"] in grupos_escolhidos:
+        if (
+            opcao["tipo_selecoes"] == "unica"
+            and opcao["option_group_id"] in grupos_escolhidos
+        ):
             raise ConfiguracaoInvalidaError(
                 f"Não é permitido selecionar mais de uma opção do grupo "
                 f"'{opcao['grupo_nome']}'."
@@ -113,11 +127,20 @@ def calcular_preco_item_configuravel(conn, product_id, variant_id, option_ids, q
         if not opcao["disponivel"]:
             raise ItemIndisponivelError(f"'{opcao['nome']}' está indisponível no momento.")
 
+        contagem_por_grupo[opcao["grupo_id"]] = contagem_por_grupo.get(opcao["grupo_id"], 0) + 1
         opcoes_escolhidas.append({"grupo": opcao["grupo_nome"], "nome": opcao["nome"]})
         if opcao["requer_orcamento"]:
             requer_orcamento = True
         else:
             total_centavos += opcao["preco_adicional"]
+
+    for g in grupos:
+        escolhidas = contagem_por_grupo.get(g["id"], 0)
+        minimo = g["min_selecoes"] if g["obrigatorio"] else 0
+        if escolhidas < minimo or escolhidas > g["max_selecoes"]:
+            raise SelecaoInvalidaError(
+                f"'{g['nome']}' exige entre {minimo} e {g['max_selecoes']} opção(ões) - recebido {escolhidas}."
+            )
 
     descricao_completa = f"{produto['nome']} — {variante['nome']}"
     if opcoes_escolhidas:
