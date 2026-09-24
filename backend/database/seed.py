@@ -10,7 +10,7 @@ Fontes:
 
 Nenhum produto, preço ou descrição aqui foi inventado. Rode com:
     python database/seed.py
-Rodar de novo é seguro: o script limpa e recria os dados antes de inserir.
+Rodar de novo é seguro: o script limpa e recria os dados antes de inserir
 """
 import sys
 from pathlib import Path
