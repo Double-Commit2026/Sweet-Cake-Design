@@ -69,11 +69,12 @@ def seed():
             ("bolo-vulcao", "Bolo Vulcão", "delivery", 3),
             ("bolos-caseiros", "Bolos Caseiros", "delivery", 4),
             ("pao-de-batata", "Pão de Batata", "delivery", 5),
-            ("mini-cake-d", "Mini Cake", "delivery", 6),
-            ("bento-cake", "Bentô Cake", "encomenda", 7),
-            ("mini-cake-e", "Mini Cake", "encomenda", 8),
-            ("bolo-redondo", "Bolo Redondo", "encomenda", 9),
-            ("bolo-coracao", "Bolo Coração", "encomenda", 10),
+            ("Cupcake", "Cupcakes", "delivery", 6),
+            ("Pirulito", "Pirulito", "delivery", 7),
+            ("bento-cake", "Bentô Cake", "encomenda", 8),
+            ("mini-cake-e", "Mini Cake", "encomenda", 9),
+            ("bolo-redondo", "Bolo Redondo", "encomenda", 10),
+            ("bolo-coracao", "Bolo Coração", "encomenda", 11),
         ]
         cat_ids = {}
         for slug, nome, tipo, ordem in categorias:
@@ -125,7 +126,7 @@ def seed():
             "Brownie Supreme com Nutella",
             "7 quadradinhos de brownie artesanal, com muito chocolate, casquinha crocante por fora e "
             "textura macia e úmida por dentro. Acompanha um potinho de Nutella. A partir de R$ 27,00.",
-            27.00, 
+            24.00, 
             ordem=2,
             imagem_url="assets/images/supreme_nutella.webp"
             )
@@ -153,7 +154,7 @@ def seed():
             "brownie", 
             "Fatia de Brownie",
             "Brownie super chocolatudo com a cobertura que você escolher.",
-            25.00, 
+            22.00, 
             ordem=5,
             imagem_url="assets/images/fatia-brownie.jpeg"
             )
@@ -162,7 +163,7 @@ def seed():
             "brownie", 
             "Marmita de Brownie (180g)",
             "Brownie cremoso feito com chocolate 50% e cobertura com granulado.",
-            22.00, 
+            18.00, 
             ordem=6,
             imagem_url="assets/images/marmita_brownie.webp"
             )
@@ -172,7 +173,7 @@ def seed():
             "mini-vulcoes", 
             "Mini vulcão chocobrownie",
             "Mini bolo chocolate brownie: massa úmida e intensa de chocolate, com pedaços de brownie.",
-            25.90, 
+            20.00, 
             ordem=1,
             imagem_url="assets/images/chocobrownie.jpeg"
             )
@@ -182,9 +183,7 @@ def seed():
             "bolo-vulcao",
             "Bolo Vulcão 20cm",
             "Delicioso bolo vulcão com uma irresistível cobertura, macio e com bastante recheio.",
-            98.00, 
-            preco_promo=150.00, 
-            destaque=True, 
+            80.00, 
             ordem=1,
             imagem_url="assets/images/bolo-vulcao-choca.jpeg"
             )
@@ -194,7 +193,7 @@ def seed():
             "bolos-caseiros", 
             "Bolo de maracujá 20cm",
             "Massa fofa, calda artesanal de fruta fresca. Sem conservantes.", 
-            34.00, 
+            27.00, 
             ordem=1,
             imagem_url="assets/images/bolo-maracuja.jpeg"
             )
@@ -203,7 +202,7 @@ def seed():
             "bolos-caseiros", 
             "Bolo formigueiro 20cm",
             "Bolo caseiro, massa fofinha, pronta para aquele café.", 
-            29.00, 
+            25.00, 
             ordem=2,
             imagem_url="assets/images/caseiro-formiga.jpeg"
             )
@@ -212,7 +211,7 @@ def seed():
             "bolos-caseiros", 
             "Bolo mesclado 20cm",
             "Bolo caseiro, massa fofinha para acompanhar aquele café.", 
-            29.00, 
+            25.00, 
             ordem=3,            
             imagem_url="assets/images/bolo-mesclado.jpeg"
             )
@@ -240,7 +239,7 @@ def seed():
             "bolos-caseiros", 
             "Romeu e Julieta (20cm)",
             "Bolo de massa de queijo com goiabada. Serve 4 pessoas.", 
-            32.00, 
+            27.00, 
             ordem=6,
             imagem_url="assets/images/romeu-julieta.jpeg"
             )
@@ -249,9 +248,7 @@ def seed():
             "bolos-caseiros", 
             "Bolo Com Cobertura",
             "Bolo caseiro com 150g de cobertura.", 
-            58.50, 
-            preco_promo=78.00, 
-            destaque=True, 
+            50.00,  
             ordem=7,
             imagem_url="assets/images/bolo_cobertura.webp"
             )
@@ -264,21 +261,29 @@ def seed():
             "Receita caseira de pão de batata com creme de queijo. Serve 4 pessoas.",
             65.00, 
             preco_promo=85.00, 
-            destaque=True, 
             ordem=1,
             imagem_url="assets/images/pao-de-batata.jpeg"
             )
 
-        # Mine cake
+        #Cupcakes
         add_fixed_product(
-            "mini-cake-d", 
-            "Mini Cake",
-            "Mine cake de limão, com raspas de limão",
-            65.00, 
-            preco_promo=85.00,
+            "Cupcake",
+            "Cupcakes",
+            "Preço por unidade, dependendo da decoração, o valor tem alteração. Sob orçamento!",
+            12.00,
             ordem=1,
-            imagem_url="assets/images/mini-cake.jpeg"
-            )
+            imagem_url="assets/images/cupcake_P.png"
+        )
+
+        #Pirulitos
+        add_fixed_product(
+            "Pirulito",
+            "Pirulitos",
+            "Preço por unidade, dependendo da decoração, o valor tem alteração. Sob orçamento!",
+            10.00,
+            ordem=1,
+            imagem_url="assets/images/pirulito_P.png"
+        )
 
         # ------------------------------------------------------------------
         # Produtos configuráveis (cardápio de encomendas 2026)
@@ -335,6 +340,7 @@ def seed():
 
         MASSA = [("Amanteigada", 0), ("Cacau", 0)]
 
+        # Decoração compartilhada entre Bentô cake e Mini cake (mesma página do cardápio)
         RECHEIO_BENTO_MINI = [
             ("Brigadeiro", 0), ("Ninho", 0), ("Doce de leite", 0), ("Beijinho", 0),
             ("Ninho com Nutella", 10), ("Ninho com geleia de morango", 10),
@@ -348,6 +354,7 @@ def seed():
             ("Vintage", 20), ("Flores naturais", 30), ("Papel de arroz", 30),
         ]
 
+        # Decoração compartilhada entre Bolo Redondo e Bolo Coração
         RECHEIO_REDONDO_CORACAO = [
             ("Brigadeiro", 0), ("Ninho", 0), ("Beijinho", 0), ("Doce de leite", 0),
             ("Ninho com Nutella", 15), ("Creme de abacaxi", 15),
