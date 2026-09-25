@@ -12,7 +12,7 @@ from pathlib import Path
 try:
     from dotenv import load_dotenv
     load_dotenv(
-        dotenv_path=Path(__file__).resolve().parents[2] / "local.env"
+        dotenv_path=Path(__file__).resolve().parents[2] / ".env"
     )
 except ImportError:
     pass
