@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Caveat:wght@600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=search">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=search,location_on,schedule,payments">
 
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/responsive.css">
@@ -204,32 +204,88 @@
          ========================================================================== -->
     <section class="section contact" id="contato">
       <div class="container">
+
         <div class="section-header">
           <span class="section-eyebrow" style="color:#ffd7e4">fale com a gente</span>
           <h2>Contato e localização</h2>
           <p>Pedidos, dúvidas e orçamentos — direto pelo WhatsApp.</p>
         </div>
+
         <div class="contact-grid">
+
+          <!-- Endereço -->
           <div class="contact-card">
-            <h4>Endereço</h4>
-            <p id="store-endereco">R. J, 62 — Marambaia, Belém - PA, 66620-810</p>
+            <div class="contact-card__title">
+              <span class="material-symbols-outlined">location_on</span>
+              <h4>Endereço</h4>
+            </div>
+
+            <p id="store-endereco">
+              R. J, 62 — Marambaia, Belém - PA, 66620-810
+            </p>
           </div>
+
+          <!-- Horário -->
           <div class="contact-card">
-            <h4>Horário</h4>
+           <div class="contact-card__title">
+              <span class="material-symbols-outlined">schedule</span>
+              <h4>Horário</h4>
+            </div>
+
             <p>Segunda a sábado, das 9h às 20h</p>
           </div>
+
+          <!-- Pagamento -->
           <div class="contact-card">
-            <h4>Pagamento</h4>
+            <div class="contact-card__title">
+              <span class="material-symbols-outlined">payments</span>
+              <h4>Pagamento</h4>
+            </div>
             <p>Cartão e Pix</p>
           </div>
+
+          <!-- Instagram -->
           <div class="contact-card">
-            <h4>WhatsApp</h4>
-            <p><a data-whatsapp-link href="#" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline">Chamar no WhatsApp</a></p>
+            <div class="contact-card__title">
+              <svg
+                class="instagram-icon"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="2" y="2" width="20" height="20" rx="5"></rect>
+                <circle cx="12" cy="12" r="4"></circle>
+                <circle cx="17.5" cy="6.5" r="1"></circle>
+              </svg>
+
+              <h4>Instagram</h4>
+            </div>
+
+            <p>
+              <a
+                id="contact-instagram-link"
+                href="https://www.instagram.com/sweetcakeedesign"
+                target="_blank"
+                rel="noopener"
+                style="color:#fff"
+              >
+                @sweetcakeedesign
+              </a>
+            </p>
           </div>
         </div>
+        
+        <!-- Whatsapp -->
         <div style="text-align:center;margin-top:28px">
           <a data-whatsapp-link href="#" target="_blank" rel="noopener" class="btn btn--whatsapp">Fazer pedido pelo WhatsApp</a>
         </div>
+        
       </div>
     </section>
   </main>

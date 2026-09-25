@@ -21,6 +21,7 @@ from services.pricing_service import (
     calcular_preco_item_configuravel,
     ItemIndisponivelError,
     ProdutoNaoEncontradoError,
+    SelecaoInvalidaError,
 )
 
 
@@ -390,6 +391,7 @@ def validar_carrinho(conn, itens):
         except (
             ItemIndisponivelError,
             ProdutoNaoEncontradoError,
+            SelecaoInvalidaError,
         ) as e:
 
             erros.append(
