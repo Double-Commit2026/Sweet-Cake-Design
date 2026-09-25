@@ -54,7 +54,7 @@ const ProductWizard = {
   },
 
   async _recalcularPreco() {
-    const optionIds = Object.values(this.selections.optionsByGroup).filter(Boolean);
+    const optionIds = Object.values(this.selections.optionsByGroup).flat();
     if (!this.selections.variantId) {
       this.precoAtual = { preco_unitario: this.produto.variantes[0] ? null : null, requer_orcamento: false };
       return;
@@ -79,8 +79,9 @@ const ProductWizard = {
     const step = this._currentStep();
     if (step.type === "variant") return !!this.selections.variantId;
     if (step.type === "options") {
-      if (!step.group.obrigatorio) return true;
-      return !!this.selections.optionsByGroup[step.group.id];
+      const escolhidos = (this.selections.optionsByGroup[step.group.id] || []).length;
+      const minimo = step.group.obrigatorio ? step.group.min_selecoes : 0;
+      return escolhidos >= minimo && escolhidos <= step.group.max_selecoes;
     }
     return true;
   },
@@ -109,7 +110,21 @@ const ProductWizard = {
   },
 
   async _selectOption(groupId, optionId) {
-    this.selections.optionsByGroup[groupId] = optionId;
+    const grupo = this.produto.grupos_opcoes.find((g) => g.id === groupId);
+    const atual = this.selections.optionsByGroup[groupId] || [];
+
+    if (grupo.tipo_selecoes === "multipla") {
+      if (atual.includes(optionId)) {
+        this.selections.optionsByGroup[groupId] = atual.filter((id) => id !== optionId);
+      } else if (atual.length < grupo.max_selecoes) {
+        this.selections.optionsByGroup[groupId] = [...atual, optionId];
+      } else {
+        return; // já escolheu o máximo — ignora o clique
+      }
+    } else {
+      this.selections.optionsByGroup[groupId] = [optionId];
+    }
+
     await this._recalcularPreco();
     await this._renderStep();
   },
@@ -144,12 +159,16 @@ const ProductWizard = {
         </div>`;
     } else if (step.type === "options") {
       const g = step.group;
+      const escolhidas = this.selections.optionsByGroup[g.id] || [];
+      const contador = g.tipo_selecoes === "multipla"
+        ? ` — escolha ${g.min_selecoes} (${escolhidas.length} selecionada${escolhidas.length === 1 ? "" : "s"})`
+        : "";
       conteudo = `
-        <span class="wizard-step__label">${g.nome}${g.obrigatorio ? "" : " (opcional)"}</span>
+        <span class="wizard-step__label">${g.nome}${g.obrigatorio ? "" : " (opcional)"}${contador}</span>
         <div class="wizard-options">
           ${g.opcoes
             .map((o) => {
-              const selecionado = this.selections.optionsByGroup[g.id] === o.id;
+              const selecionado = escolhidas.includes(o.id);
               let precoLabel = "incluso";
               let precoClass = "wizard-option__price--included";
               if (o.requer_orcamento) {
@@ -174,10 +193,9 @@ const ProductWizard = {
       const variante = this.produto.variantes.find((v) => v.id === this.selections.variantId);
       const opcoesEscolhidas = this.produto.grupos_opcoes
         .map((g) => {
-          const optId = this.selections.optionsByGroup[g.id];
-          if (!optId) return null;
-          const opt = g.opcoes.find((o) => o.id === optId);
-          return opt ? `${g.nome}: ${opt.nome}` : null;
+          const ids = this.selections.optionsByGroup[g.id] || [];
+          const nomes = ids.map((id) => g.opcoes.find((o) => o.id === id)?.nome).filter(Boolean);
+          return nomes.length ? `${g.nome}: ${nomes.join(", ")}` : null;
         })
         .filter(Boolean);
 
@@ -267,9 +285,9 @@ const ProductWizard = {
     const variante = this.produto.variantes.find((v) => v.id === this.selections.variantId);
     const opcoesEscolhidas = this.produto.grupos_opcoes
       .map((g) => {
-        const optId = this.selections.optionsByGroup[g.id];
-        const opt = optId ? g.opcoes.find((o) => o.id === optId) : null;
-        return opt ? opt.nome : null;
+        const ids = this.selections.optionsByGroup[g.id] || [];
+        const nomes = ids.map((id) => g.opcoes.find((o) => o.id === id)?.nome).filter(Boolean);
+        return nomes.length ? nomes.join(", ") : null;
       })
       .filter(Boolean);
 
@@ -278,10 +296,10 @@ const ProductWizard = {
     Cart.addItem({
       product_id: this.produto.id,
       variant_id: this.selections.variantId,
-      option_ids: Object.values(this.selections.optionsByGroup).filter(Boolean),
+      option_ids: Object.values(this.selections.optionsByGroup).flat(),
       quantidade: this.quantidade,
       nome_exibido: `${this.produto.nome} — ${variante ? variante.nome : ""}`,
-      detalhe_exibido: opcoesEscolhidas.join(", "),
+      detalhe_exibido: opcoesEscolhidas.join(" · "),
       preco_exibido: requerOrcamento ? 0 : (this.precoAtual ? this.precoAtual.preco_unitario : 0),
       requer_orcamento: requerOrcamento,
     });
