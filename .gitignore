@@ -1,5 +1,6 @@
 # Variáveis de ambiente / credenciais
 .env
+local.env
 
 # Banco de dados
 backend/database/sweetcake.db
