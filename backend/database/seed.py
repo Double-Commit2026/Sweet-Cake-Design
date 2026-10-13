@@ -380,6 +380,7 @@ def seed():
             "linha-especial", "Linha Especial 2.0",
             "Doces finos avulsos. Escolha o sabor.",
             ordem=2,
+            imagem_url="assets/images/linha-especial-2.0.webp"
         )
         add_variant(doce_especial2, "Unidade", 0, ordem=1)
         g = add_option_group(doce_especial2, "Sabor", obrigatorio=True, ordem=1)
@@ -406,7 +407,7 @@ def seed():
             "linha-especial","Doces Fetivos",
             "Doces Festivos para adoçar ainda mais sua comemoração. — Preço unitário",
             ordem=4,
-            imagem_url="assets/images/doce-festivo-mini-bolo.jpeg"
+            imagem_url="assets/images/doce-festivo-mini-bolo.webp"
         )
         add_variant(doces_festivos, "Mini Bolo", 13.90, ordem=1)
         add_variant(doces_festivos, "Bem Casado", 5.00, ordem=2)
@@ -419,7 +420,7 @@ def seed():
             "linha-especial", "Biscoitos",
             "Biscoitos artesanais. Escolha o sabor por 1 cento - o valor não muda.",
             ordem = 3,
-            imagem_url="assets/images/biscoitos.jpeg"
+            imagem_url="assets/images/biscoitos.webp"
         )
         add_variant (biscoito,"Pacote", 120.00, ordem=1)
         g = add_option_group(biscoito, "Sabor", obrigatorio=True, ordem=1)
@@ -482,7 +483,7 @@ def seed():
         p = add_configurable_product(
             "bolos", "Bentô Cake",
             "Bolo pequeno servido na caixa (10cm), a partir de R$ 60,00. Os valores alteram de acordo com a "
-            "decoração — para decorações mais detalhadas, solicite orçamento.", ordem=1, imagem_url="assets/images/bento-cake.jpeg")
+            "decoração — para decorações mais detalhadas, solicite orçamento.", ordem=1, imagem_url="assets/images/bento-cake.webp")
         add_variant(p, "Bolo na caixa (10cm)", 60.00, ordem=1)
         add_common_groups(p, RECHEIO_BENTO_MINI, DECORACAO_BENTO_MINI)
 
@@ -499,7 +500,7 @@ def seed():
         # --- Bolo Redondo ---
         p = add_configurable_product(
             "bolos", "Bolo Redondo",
-            "Bolo redondo clássico, em diversos tamanhos e números de camadas.", ordem=3, imagem_url="assets/images/bolo-redondo.jpeg")
+            "Bolo redondo clássico, em diversos tamanhos e números de camadas.", ordem=3, imagem_url="assets/images/bolo-redondo.webp")
         add_variant(p, "13cm · 2 camadas de bolo e 1 de recheio", 100.00, serve=5, ordem=1)
         add_variant(p, "15cm · 2 camadas de bolo e 1 de recheio", 150.00, serve=10, ordem=2)
         add_variant(p, "20cm · 2 camadas de bolo e 1 de recheio", 180.00, serve=20, ordem=3)
