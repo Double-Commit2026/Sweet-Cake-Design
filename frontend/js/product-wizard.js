@@ -121,6 +121,8 @@ const ProductWizard = {
       } else {
         return; // já escolheu o máximo — ignora o clique
       }
+    } else if (atual.includes(optionId)) {
+      this.selections.optionsByGroup[groupId] = [];
     } else {
       this.selections.optionsByGroup[groupId] = [optionId];
     }

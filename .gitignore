@@ -1,5 +1,5 @@
 # Variáveis de ambiente / credenciais
-.env
+.env.*
 local.env
 
 # Banco de dados
@@ -33,5 +33,3 @@ htmlcov/
 
 # Vercel
 .vercel/
-
-node_modules/

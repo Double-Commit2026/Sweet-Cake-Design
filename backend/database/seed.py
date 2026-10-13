@@ -65,17 +65,13 @@ def seed():
         categorias = [
             # slug, nome, tipo, ordem
             ("brownie", "Brownie", "delivery", 1),
-            ("mini-vulcoes", "Mini Vulcões", "delivery", 2),
-            ("bolo-vulcao", "Bolo Vulcão", "delivery", 3),
-            ("bolos-caseiros", "Bolos Caseiros", "delivery", 4),
-            ("pao-de-batata", "Pão de Batata", "delivery", 5),
-            ("Cupcake", "Cupcakes", "delivery", 6),
-            ("Pirulito", "Pirulito", "delivery", 7),
-            ("bento-cake", "Bentô Cake", "encomenda", 8),
-            ("mini-cake-e", "Mini Cake", "encomenda", 9),
-            ("bolo-redondo", "Bolo Redondo", "encomenda", 10),
-            ("bolo-coracao", "Bolo Coração", "encomenda", 11),
-            ("cento_docinhos", "Cento de docinhos", "encomenda", 12),
+            ("vulcoes", "Vulcões", "delivery", 2),
+            ("bolos-caseiros", "Bolos Caseiros", "delivery", 3),
+            ("pao-de-batata", "Pão de Batata", "delivery", 4),
+            ("doces", "Doces", "delivery", 5),
+            ("bolos", "Bolos", "encomenda", 6),
+            ("cento_docinhos", "Cento de docinhos", "encomenda", 7),
+            ("linha-especial", "Linha Especial", "encomenda", 8),
         ]
         cat_ids = {}
         for slug, nome, tipo, ordem in categorias:
@@ -90,7 +86,7 @@ def seed():
             cat_ids[slug] = cur.fetchone()["id"]
 
         # ------------------------------------------------------------------
-        # Produtos de preço fixo (catálogo iFood)
+        # Produtos de preço fixo
         # ------------------------------------------------------------------
         def add_fixed_product(slug_categoria, nome, descricao, preco, preco_promo=None, destaque=False, ordem=0, imagem_url=None):
             cur.execute(
@@ -171,7 +167,7 @@ def seed():
 
         # Mini Vulcões
         add_fixed_product(
-            "mini-vulcoes", 
+            "vulcoes", 
             "Mini vulcão chocobrownie",
             "Mini bolo chocolate brownie: massa úmida e intensa de chocolate, com pedaços de brownie.",
             20.00, 
@@ -179,13 +175,13 @@ def seed():
             imagem_url="assets/images/chocobrownie.jpeg"
             )
 
-        # Bolo Vulcão (destaque no iFood)
+        # Bolo Vulcão
         add_fixed_product(
-            "bolo-vulcao",
+            "vulcoes",
             "Bolo Vulcão 20cm",
             "Delicioso bolo vulcão com uma irresistível cobertura, macio e com bastante recheio.",
             80.00, 
-            ordem=1,
+            ordem=2,
             imagem_url="assets/images/bolo-vulcao-choca.jpeg"
             )
 
@@ -268,7 +264,7 @@ def seed():
 
         #Cupcakes
         add_fixed_product(
-            "Cupcake",
+            "doces",
             "Cupcakes",
             "Preço por unidade, dependendo da decoração, o valor tem alteração. Sob orçamento!",
             12.00,
@@ -278,30 +274,31 @@ def seed():
 
         #Pirulitos
         add_fixed_product(
-            "Pirulito",
+            "doces",
             "Pirulitos",
             "Preço por unidade, dependendo da decoração, o valor tem alteração. Sob orçamento!",
             10.00,
-            ordem=1,
+            ordem=2,
             imagem_url="assets/images/pirulito_P.png"
         )
 
         # ------------------------------------------------------------------
         # Produtos configuráveis (cardápio de encomendas 2026)
         # ------------------------------------------------------------------
-        def add_configurable_product(slug_categoria, nome, descricao, ordem=1):
+        def add_configurable_product(slug_categoria, nome, descricao, ordem=1, imagem_url=None):
             cur.execute(
                 """
                 INSERT INTO products
-                (categoria_id, nome, descricao, tipo_preco, destaque, ordem)
-                VALUES (%s, %s, %s, 'configuravel', FALSE, %s)
+                (categoria_id, nome, descricao, tipo_preco, imagem_url, destaque, ordem)
+                VALUES (%s, %s, %s, 'configuravel', %s, FALSE, %s)
                 RETURNING id
                 """,
                 (
                     cat_ids[slug_categoria], 
                     nome, 
                     descricao, 
-                    ordem
+                    imagem_url,
+                    ordem,
                 ),
             )
             return cur.fetchone()["id"]
@@ -347,6 +344,7 @@ def seed():
             "cento_docinhos", "Doces Tradicionais",
             "Cento de docinhos tradicionais. Escolha 3 sabores — o valor não muda.",
             ordem=1,
+            imagem_url="assets/images/doce-tradicional.jpeg"
         )
         add_variant(doce_trad, "Cento (100 unidades)", 150.00, ordem=1)
         g = add_option_group(doce_trad, "Sabores", obrigatorio=True, tipo_selecoes="multipla", min_selecoes=3, max_selecoes=3, ordem=1)
@@ -358,6 +356,7 @@ def seed():
             "cento_docinhos", "Doces Gourmet",
             "Cento de docinhos gourmet. Escolha 3 sabores — o valor não muda.",
             ordem=2,
+            imagem_url="assets/images/doce-gourmet.jpeg"
         )
         add_variant(doce_gourmet, "Cento (100 unidades)", 230.00, ordem=1)
         g = add_option_group(doce_gourmet, "Sabores", obrigatorio=True, tipo_selecoes="multipla", min_selecoes=3, max_selecoes=3, ordem=1)
@@ -366,13 +365,66 @@ def seed():
 
         # Linha Especial — R$250 o cento, cliente escolhe 3 sabores
         doce_especial = add_configurable_product(
-            "cento_docinhos", "Linha Especial",
+            "linha-especial", "Cento Linha Especial",
             "Cento de docinhos linha especial. Escolha 3 sabores — o valor não muda.",
-            ordem=3,
+            ordem=1,
+            imagem_url="assets/images/linha-especial.jpeg"
         )
         add_variant(doce_especial, "Cento (100 unidades)", 250.00, ordem=1)
         g = add_option_group(doce_especial, "Sabores", obrigatorio=True, tipo_selecoes="multipla", min_selecoes=3, max_selecoes=3, ordem=1)
         for i, nome in enumerate(["Brigadeiro Colorido", "Coco queimado", "Surpresa de uva", "Café", "Olho de sogra", "Ferrero Rocher"]):
+            add_option(g, nome, 0, ordem=i)
+
+        # Linha Especial 2.0 — 1 produto, escolha o sabor (preço vem da opção)
+        doce_especial2 = add_configurable_product(
+            "linha-especial", "Linha Especial 2.0",
+            "Doces finos avulsos. Escolha o sabor.",
+            ordem=2,
+            imagem_url="assets/images/linha-especial-2.0.webp"
+        )
+        add_variant(doce_especial2, "Unidade", 0, ordem=1)
+        g = add_option_group(doce_especial2, "Sabor", obrigatorio=True, ordem=1)
+        add_option(g, "Doce formato de flor ou coração", 5.00, ordem=1)
+        add_option(g, "Bombom cereja", 5.00, ordem=2)
+        add_option(g, "Brigadeiro de pistache", 5.00, ordem=3)
+        add_option(g, "Camafeu de morango", 19.90, ordem=4)
+        add_option(g, "Bombom prestígio", 3.00, ordem=5)
+
+        # doces Finos
+        p_docefinos = add_configurable_product(
+        "cento_docinhos", "Doce Finos",
+        "Cento de docinhos trufados. Escolha 3 sabores — o valor não muda.",
+        ordem=4,
+        imagem_url="assets/images/doces-finos.jpeg"
+        )
+        add_variant(p_docefinos, "Cento (100 unidades)", 300.00, ordem=1)
+        g = add_option_group(p_docefinos, "Sabores", obrigatorio=True, tipo_selecoes="multipla", min_selecoes=3, max_selecoes=3, ordem=1)
+        for i, nome in enumerate(["Cupuaçu", "Morango", "Cereja", "Nutella", "Ganache de chocolate", "Caramelo", "Castanha do Pará"]):
+            add_option(g, nome, 0, ordem=i)
+
+        # Doces festivos
+        doces_festivos = add_configurable_product(
+            "linha-especial","Doces Fetivos",
+            "Doces Festivos para adoçar ainda mais sua comemoração. — Preço unitário",
+            ordem=4,
+            imagem_url="assets/images/doce-festivo-mini-bolo.webp"
+        )
+        add_variant(doces_festivos, "Mini Bolo", 13.90, ordem=1)
+        add_variant(doces_festivos, "Bem Casado", 5.00, ordem=2)
+        g = add_option_group(doces_festivos, "Personalização", obrigatorio=False, ordem=1)
+        add_option(g, "Chocolate", 1.00, ordem=1)
+        add_option(g, "Pasta americana", 2.00, ordem=2)
+
+        # Cento de biscoitos
+        biscoito = add_configurable_product(
+            "linha-especial", "Biscoitos",
+            "Biscoitos artesanais. Escolha o sabor por 1 cento - o valor não muda.",
+            ordem = 3,
+            imagem_url="assets/images/biscoitos.webp"
+        )
+        add_variant (biscoito,"Pacote", 120.00, ordem=1)
+        g = add_option_group(biscoito, "Sabor", obrigatorio=True, ordem=1)
+        for i, nome in enumerate(["Monteiro Lopes", "Castanha do Pará"]):
             add_option(g, nome, 0, ordem=i)
 
         MASSA = [("Amanteigada", 0), ("Cacau", 0)]
@@ -429,16 +481,16 @@ def seed():
 
         # --- Bentô cake ---
         p = add_configurable_product(
-            "bento-cake", "Bentô Cake",
+            "bolos", "Bentô Cake",
             "Bolo pequeno servido na caixa (10cm), a partir de R$ 60,00. Os valores alteram de acordo com a "
-            "decoração — para decorações mais detalhadas, solicite orçamento.")
+            "decoração — para decorações mais detalhadas, solicite orçamento.", ordem=1, imagem_url="assets/images/bento-cake.webp")
         add_variant(p, "Bolo na caixa (10cm)", 60.00, ordem=1)
         add_common_groups(p, RECHEIO_BENTO_MINI, DECORACAO_BENTO_MINI)
 
         # --- Mini cake ---
         p = add_configurable_product(
-            "mini-cake-e", "Mini Cake",
-            "Bolo pequeno com decoração mais sofisticada, com bordinha e lacinhos.")
+            "bolos", "Mini Cake",
+            "Bolo pequeno com decoração mais sofisticada, com bordinha e lacinhos.", ordem=2, imagem_url="assets/images/mini-cake.jpeg")
         add_variant(p, "Redondo 10cm", 60.00, ordem=1)
         add_variant(p, "Redondo 12cm", 70.00, ordem=2)
         add_variant(p, "Coração 10cm", 60.00, ordem=3)
@@ -447,8 +499,8 @@ def seed():
 
         # --- Bolo Redondo ---
         p = add_configurable_product(
-            "bolo-redondo", "Bolo Redondo",
-            "Bolo redondo clássico, em diversos tamanhos e números de camadas.")
+            "bolos", "Bolo Redondo",
+            "Bolo redondo clássico, em diversos tamanhos e números de camadas.", ordem=3, imagem_url="assets/images/bolo-redondo.webp")
         add_variant(p, "13cm · 2 camadas de bolo e 1 de recheio", 100.00, serve=5, ordem=1)
         add_variant(p, "15cm · 2 camadas de bolo e 1 de recheio", 150.00, serve=10, ordem=2)
         add_variant(p, "20cm · 2 camadas de bolo e 1 de recheio", 180.00, serve=20, ordem=3)
@@ -463,8 +515,8 @@ def seed():
 
         # --- Bolo Coração ---
         p = add_configurable_product(
-            "bolo-coracao", "Bolo Coração",
-            "Bolo em formato de coração, em diversos tamanhos e números de camadas.")
+            "bolos", "Bolo Coração",
+            "Bolo em formato de coração, em diversos tamanhos e números de camadas.", ordem=4, imagem_url="assets/images/bolo-coracao.jpeg")
         add_variant(p, "13cm · 3 camadas de bolo e 2 de recheio", 165.00, serve=6, ordem=1)
         add_variant(p, "20cm · 2 camadas de bolo e 1 de recheio", 200.00, serve=18, ordem=2)
         add_variant(p, "20cm · 3 camadas de bolo e 2 de recheio", 300.00, serve=25, ordem=3)
