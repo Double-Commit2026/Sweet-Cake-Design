@@ -9,7 +9,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   Cart.load();
   CartUI.init();
   Search.init();
-
+  initHeroCarousel();
+  
   document.getElementById("overlay").addEventListener("click", () => ProductWizard.close());
   document.getElementById("wizard-sheet-close").addEventListener("click", () => ProductWizard.close());
   document.getElementById("product-sheet-close").addEventListener("click", () => productDetail.close());
@@ -20,6 +21,69 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   revealOnScroll(document.querySelectorAll(".section .reveal"));
 });
+
+function initHeroCarousel() {
+  const root = document.getElementById("hero-carousel");
+  if (!root) return;
+
+  const slides = Array.from(root.querySelectorAll(".hero-carousel__slide"));
+  if (slides.length < 2) return;
+
+  const INTERVALO = 5000; // ms entre fotos
+  const reduzMovimento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let atual = 0;
+  let timer = null;
+
+  const dotsWrap = document.createElement("div");
+  dotsWrap.className = "hero-carousel__dots";
+  const dots = slides.map((_, i) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "hero-carousel__dot";
+    b.setAttribute("aria-label", `Ver foto ${i + 1} de ${slides.length}`);
+    b.addEventListener("click", () => {
+      mostrar(i);
+      parar();
+      iniciar();
+    });
+    dotsWrap.appendChild(b);
+    return b;
+  });
+  root.appendChild(dotsWrap);
+
+  function mostrar(i) {
+    atual = (i + slides.length) % slides.length;
+    slides.forEach((slide, idx) => {
+      const ativo = idx === atual;
+      slide.classList.toggle("is-active", ativo);
+      slide.setAttribute("aria-hidden", ativo ? "false" : "true");
+      dots[idx].classList.toggle("is-active", ativo);
+      dots[idx].setAttribute("aria-current", ativo ? "true" : "false");
+    });
+  }
+
+  function iniciar() {
+    if (reduzMovimento || timer) return;
+    timer = setInterval(() => mostrar(atual + 1), INTERVALO);
+  }
+
+  function parar() {
+    clearInterval(timer);
+    timer = null;
+  }
+
+  // pausa quando o mouse está em cima (só mouse, para não travar no toque do celular)
+  root.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") parar(); });
+  root.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") iniciar(); });
+  // pausa para quem navega pelo teclado
+  root.addEventListener("focusin", parar);
+  root.addEventListener("focusout", iniciar);
+  // não gasta processamento com a aba em segundo plano
+  document.addEventListener("visibilitychange", () => (document.hidden ? parar() : iniciar()));
+
+  mostrar(0);
+  iniciar();
+}
 
 /**
  * Busca os produtos "encomenda" (Bentô, Mini Cake, Bolo Redondo, Bolo
