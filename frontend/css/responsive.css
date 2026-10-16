@@ -95,3 +95,20 @@
 
   .site-header .brand__name { font-size: 1.05rem; }
 }
+
+@media (max-width: 900px) {
+  .story__grid,
+  .values,
+  .order-grid,
+  .cta-banner__inner {
+    grid-template-columns: 1fr;
+  }
+  .cta-banner__actions { justify-content: flex-start; }
+}
+
+@media (max-width: 767px) {
+  .hero__features { justify-content: center; }
+  .values { padding: 24px 20px; }
+  .values__intro { flex-direction: column; }
+  .occasions__grid { grid-template-columns: repeat(2, 1fr); }
+}
