@@ -134,7 +134,7 @@ def seed():
             "Duas camadas de brownie macio com recheio generoso de chocolate e Ninho super cremoso.",
             17.50, 
             ordem=3,
-            imagem_url="assets/images/sand-brownie.jpeg"
+            imagem_url="assets/images/sand-brownie.webp"
             )
         
         add_fixed_product(
@@ -144,7 +144,7 @@ def seed():
             "com granulado gourmet, acompanhado de 4 quadradinhos de brownie artesanal.",
             26.90, 
             ordem=4,
-            imagem_url="assets/images/duo-brownie.jpeg"
+            imagem_url="assets/images/duo-brownie.webp"
             )
         
         add_fixed_product(
@@ -153,7 +153,7 @@ def seed():
             "Brownie super chocolatudo com a cobertura que você escolher.",
             22.00, 
             ordem=5,
-            imagem_url="assets/images/fatia-brownie.jpeg"
+            imagem_url="assets/images/fatia-brownie.webp"
             )
         
         add_fixed_product(
@@ -162,7 +162,7 @@ def seed():
             "Brownie cremoso feito com chocolate 50% e cobertura com granulado.",
             18.00, 
             ordem=6,
-            imagem_url="assets/images/marmita_brownie.webp"
+            imagem_url="assets/images/marmita-brownie.webp"
             )
 
         # Mini Vulcões
@@ -172,7 +172,7 @@ def seed():
             "Mini bolo chocolate brownie: massa úmida e intensa de chocolate, com pedaços de brownie.",
             20.00, 
             ordem=1,
-            imagem_url="assets/images/chocobrownie.jpeg"
+            imagem_url="assets/images/chocobrownie.webp"
             )
 
         # Bolo Vulcão
@@ -182,7 +182,7 @@ def seed():
             "Delicioso bolo vulcão com uma irresistível cobertura, macio e com bastante recheio.",
             80.00, 
             ordem=2,
-            imagem_url="assets/images/bolo-vulcao-choca.jpeg"
+            imagem_url="assets/images/bolo-vulcao-choca.webp"
             )
 
         # Bolos Caseiros
@@ -192,7 +192,7 @@ def seed():
             "Massa fofa, calda artesanal de fruta fresca. Sem conservantes.", 
             27.00, 
             ordem=1,
-            imagem_url="assets/images/bolo-maracuja.jpeg"
+            imagem_url="assets/images/bolo-maracuja.webp"
             )
         
         add_fixed_product(
@@ -201,7 +201,7 @@ def seed():
             "Bolo caseiro, massa fofinha, pronta para aquele café.", 
             25.00, 
             ordem=2,
-            imagem_url="assets/images/caseiro-formiga.jpeg"
+            imagem_url="assets/images/caseiro-formiga.webp"
             )
         
         add_fixed_product(
@@ -238,7 +238,7 @@ def seed():
             "Bolo de massa de queijo com goiabada. Serve 4 pessoas.", 
             27.00, 
             ordem=6,
-            imagem_url="assets/images/romeu-julieta.jpeg"
+            imagem_url="assets/images/romeu-julieta.webp"
             )
         
         add_fixed_product(
@@ -259,7 +259,7 @@ def seed():
             65.00, 
             preco_promo=85.00, 
             ordem=1,
-            imagem_url="assets/images/pao-de-batata.jpeg"
+            imagem_url="assets/images/pao-de-batata.webp"
             )
 
         #Cupcakes
@@ -269,7 +269,7 @@ def seed():
             "Preço por unidade, dependendo da decoração, o valor tem alteração. Sob orçamento!",
             12.00,
             ordem=1,
-            imagem_url="assets/images/cupcake_P.png"
+            imagem_url="assets/images/cupcake-p.webp"
         )
 
         #Pirulitos
@@ -279,7 +279,7 @@ def seed():
             "Preço por unidade, dependendo da decoração, o valor tem alteração. Sob orçamento!",
             10.00,
             ordem=2,
-            imagem_url="assets/images/pirulito_P.png"
+            imagem_url="assets/images/pirulito-p.webp"
         )
 
         # ------------------------------------------------------------------
