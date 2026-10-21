@@ -14,7 +14,7 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 
 from config.settings import settings
-from routes import categories, products, pricing, cart, store_info
+from routes import categories, products, pricing, cart, store_info, banners
 
 
 app = Flask(__name__)
@@ -35,6 +35,7 @@ app.register_blueprint(products.bp)
 app.register_blueprint(pricing.bp)
 app.register_blueprint(cart.bp)
 app.register_blueprint(store_info.bp)
+app.register_blueprint(banners.bp)
 
 # Teste da API
 

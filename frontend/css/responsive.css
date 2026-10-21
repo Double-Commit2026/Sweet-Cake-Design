@@ -112,3 +112,20 @@
   .values__intro { flex-direction: column; }
   .occasions__grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+@media (max-width: 767px) {
+  .featured-slide {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+  .featured-slide__media {
+    order: -1;
+    aspect-ratio: 16 / 10;
+    -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent);
+    mask-image: linear-gradient(to bottom, #000 65%, transparent);
+  }
+  .featured-slide__text { padding: 8px 24px 52px; }
+  .featured__arrow { top: 31.25vw; width: 38px; height: 38px; }  /* meio da foto */
+  .featured__arrow--prev { left: 10px; }
+  .featured__arrow--next { right: 10px; }
+}

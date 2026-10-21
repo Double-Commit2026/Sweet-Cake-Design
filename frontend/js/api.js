@@ -42,6 +42,8 @@ class ApiError extends Error {
   }
 }
 
+let storeInfoPromise = null;
+
 const api = {
   getCategories() {
     return apiRequest("/categories");
@@ -69,6 +71,15 @@ const api = {
     });
   },
   getStoreInfo() {
-    return apiRequest("/store-info");
+      if (!storeInfoPromise) {
+        storeInfoPromise = apiRequest("/store-info").catch((erro) => {
+          storeInfoPromise = null; // se falhar, a próxima chamada tenta de novo
+          throw erro;
+        });
+      }
+      return storeInfoPromise;
+    },
+    getBanners() {
+      return apiRequest("/banners");
   },
 };

@@ -23,6 +23,65 @@ def reais(valor):
     """Converte um valor em reais (float) para centavos (int) — evita erros de ponto flutuante."""
     return round(valor * 100)
 
+# ----------------------------------------------------------------------
+# BANNERS DE DESTAQUE (produtos sazonais)
+#
+# Para adicionar, trocar ou remover um banner: edite esta lista e rode
+#     python database/seed.py banners
+# A ordem da lista é a ordem de exibição. Lista vazia (BANNERS = []) faz
+# o banner sumir do site.
+# ----------------------------------------------------------------------
+BANNERS = [
+    {
+        "chamada": "Especial de",                       # opcional: linha manuscrita acima do título
+        "titulo": "Páscoa",
+        "descricao": "O sabor da Páscoa em cada detalhe! Nossos ovos de colher são feitos com muito carinho, combinando sabores especiais e uma apresentação encantadora.",
+        "imagem_url": "assets/images/Bolo_Coração_Homem-Aranha.webp",   # define imagem destaque
+        "botao_texto": "Fazer meu pedido",               # opcional (padrão: "Fazer meu pedido")
+        "mensagem_whatsapp": "Olá! Gostaria de fazer um pedido de Páscoa.",  # opcional
+                                                        # opcional: aparece a partir deste dia                        
+                                                        # opcional: some depois deste dia
+        "ativo": True,                                  # opcional: False deixa o banner guardado, mas escondido
+    },
+    {
+        "chamada": "Adoce seu dia",                       # opcional: linha manuscrita acima do título
+        "titulo": "Morango Cravejado",
+        "descricao": "O sabor de um sonho na palma da sua mão! moranguinho cravejadinho.",
+        "imagem_url": "assets/images/bolo-sherek.webp",   # define imagem destaque
+        "botao_texto": "Fazer meu pedido",               # opcional (padrão: "Fazer meu pedido")
+        "mensagem_whatsapp": "Olá! gostaria de encomendar o meu pedaço de mal caminho.",  # opcional
+                                                        # opcional: aparece a partir deste dia                        
+                                                        # opcional: some depois deste dia
+        "ativo": True,                                  # opcional: False deixa o banner guardado, mas escondido
+    },
+    
+]
+
+
+def seed_banners(cur):
+    """Recria a tabela de banners a partir da lista BANNERS."""
+    cur.execute("TRUNCATE TABLE banners RESTART IDENTITY")
+    for ordem, b in enumerate(BANNERS, start=1):
+        cur.execute(
+            """
+            INSERT INTO banners
+                (chamada, titulo, descricao, imagem_url, botao_texto,
+                 mensagem_whatsapp, ativo, data_inicio, data_fim, ordem)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s::date, %s::date, %s)
+            """,
+            (
+                b.get("chamada"),
+                b["titulo"],
+                b.get("descricao"),
+                b["imagem_url"],
+                b.get("botao_texto", "Fazer meu pedido"),
+                b.get("mensagem_whatsapp"),
+                b.get("ativo", True),
+                b.get("data_inicio"),
+                b.get("data_fim"),
+                ordem,
+            ),
+        )
 
 def seed():
     with get_db() as conn:
@@ -522,8 +581,19 @@ def seed():
         add_variant(p, "20cm · 3 camadas de bolo e 2 de recheio", 300.00, serve=25, ordem=3)
         add_common_groups(p, RECHEIO_REDONDO_CORACAO, DECORACAO_REDONDO_CORACAO)
 
+        seed_banners(cur)
+
         print("Banco populado com sucesso com o catálogo real da Sweet Cake.")
 
 
+def seed_only_banners():
+    with get_db() as conn:
+        seed_banners(conn.cursor())
+    print("Banners atualizados.")
+
+
 if __name__ == "__main__":
-    seed()
+    if len(sys.argv) > 1 and sys.argv[1] == "banners":
+        seed_only_banners()
+    else:
+        seed()

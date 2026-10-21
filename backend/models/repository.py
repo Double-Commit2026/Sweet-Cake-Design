@@ -119,3 +119,20 @@ def get_product_detail(conn, product_id):
 def get_store_info(conn):
     rows = conn.execute("SELECT chave, valor FROM store_info").fetchall()
     return {r["chave"]: r["valor"] for r in rows}
+
+# Definindo o fuso horário de belém
+def list_banners_ativos(conn):
+    """Banners em vigor hoje (data no fuso de Belém), na ordem de exibição."""
+    rows = conn.execute(
+        """
+        SELECT id, chamada, titulo, descricao, imagem_url,
+               botao_texto, mensagem_whatsapp
+        FROM banners
+        WHERE ativo = TRUE
+          AND (data_inicio IS NULL OR data_inicio <= (NOW() AT TIME ZONE 'America/Belem')::date)
+          AND (data_fim IS NULL OR data_fim >= (NOW() AT TIME ZONE 'America/Belem')::date)
+        ORDER BY ordem, id
+        """
+    ).fetchall()
+    return [dict(r) for r in rows]
+
