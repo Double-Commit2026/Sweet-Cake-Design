@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   CartUI.init();
   Search.init();
   initHeroCarousel();
+  initFeaturedBanner();
   
   document.getElementById("overlay").addEventListener("click", () => ProductWizard.close());
   document.getElementById("wizard-sheet-close").addEventListener("click", () => ProductWizard.close());
@@ -204,4 +205,140 @@ async function initStoreInfo() {
   } catch (erro) {
     // Seção de contato mantém os placeholders estáticos do HTML se a API falhar.
   }
+}
+
+function escapeHTML(texto) {
+  return String(texto ?? "").replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+  }[c]));
+}
+
+async function initFeaturedBanner() {
+  const section = document.getElementById("destaques");
+  const root = document.getElementById("featured-root");
+  if (!section || !root) return;
+
+  let banners = [];
+  let numeroWhatsapp = "";
+  try {
+    const [lista, info] = await Promise.all([
+      api.getBanners(),
+      api.getStoreInfo().catch(() => ({})),
+    ]);
+    banners = lista;
+    numeroWhatsapp = info.whatsapp || "";
+  } catch (erro) {
+    banners = [];
+  }
+
+  // Sem banner ativo (ou API fora do ar): a seção some e o hero fica no topo.
+  if (!banners.length) {
+    section.remove();
+    return;
+  }
+
+  const nomeDe = (b) => [b.chamada, b.titulo].filter(Boolean).join(" ");
+  const linkWhatsapp = (b) => {
+    const mensagem = b.mensagem_whatsapp || `Olá! Gostaria de fazer um pedido: ${nomeDe(b)}.`;
+    return `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(mensagem)}`;
+  };
+
+  root.innerHTML = `
+    <div class="featured__track">
+      ${banners
+        .map(
+          (b, i) => `
+        <article class="featured-slide ${i === 0 ? "is-active" : ""}">
+          <div class="featured-slide__text">
+            ${b.chamada ? `<span class="featured-slide__lead">${escapeHTML(b.chamada)}</span>` : ""}
+            <h2 class="featured-slide__title">${escapeHTML(b.titulo)}</h2>
+            ${b.descricao ? `<p class="featured-slide__desc">${escapeHTML(b.descricao)}</p>` : ""}
+            ${
+              numeroWhatsapp
+                ? `<a class="btn btn--primary" href="${escapeHTML(linkWhatsapp(b))}" target="_blank" rel="noopener">${escapeHTML(b.botao_texto)} <span aria-hidden="true">→</span></a>`
+                : ""
+            }
+          </div>
+          <div class="featured-slide__media">
+            <img src="${escapeHTML(b.imagem_url)}" alt="${escapeHTML(nomeDe(b))}" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'}>
+          </div>
+        </article>`
+        )
+        .join("")}
+    </div>`;
+
+  const slides = Array.from(root.querySelectorAll(".featured-slide"));
+
+  if (slides.length > 1) {
+    root.insertAdjacentHTML(
+      "beforeend",
+      `
+      <button type="button" class="featured__arrow featured__arrow--prev" aria-label="Destaque anterior">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button type="button" class="featured__arrow featured__arrow--next" aria-label="Próximo destaque">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <div class="featured__dots">
+        ${slides.map((_, i) => `<button type="button" class="featured__dot" aria-label="Ver destaque ${i + 1} de ${slides.length}"></button>`).join("")}
+      </div>`
+    );
+
+    const INTERVALO = 7000;
+    const reduzMovimento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const dots = Array.from(root.querySelectorAll(".featured__dot"));
+    const track = root.querySelector(".featured__track");
+    let atual = 0;
+    let timer = null;
+
+    const mostrar = (i) => {
+      atual = (i + slides.length) % slides.length;
+      slides.forEach((s, idx) => s.classList.toggle("is-active", idx === atual));
+      dots.forEach((d, idx) => {
+        d.classList.toggle("is-active", idx === atual);
+        d.setAttribute("aria-current", idx === atual ? "true" : "false");
+      });
+    };
+    const iniciar = () => {
+      if (reduzMovimento || timer) return;
+      timer = setInterval(() => mostrar(atual + 1), INTERVALO);
+    };
+    const parar = () => {
+      clearInterval(timer);
+      timer = null;
+    };
+    const reiniciar = () => {
+      parar();
+      iniciar();
+    };
+
+    root.querySelector(".featured__arrow--prev").addEventListener("click", () => { mostrar(atual - 1); reiniciar(); });
+    root.querySelector(".featured__arrow--next").addEventListener("click", () => { mostrar(atual + 1); reiniciar(); });
+    dots.forEach((d, i) => d.addEventListener("click", () => { mostrar(i); reiniciar(); }));
+
+    // pausa: mouse em cima, foco do teclado e aba em segundo plano
+    root.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") parar(); });
+    root.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") iniciar(); });
+    root.addEventListener("focusin", parar);
+    root.addEventListener("focusout", iniciar);
+    document.addEventListener("visibilitychange", () => (document.hidden ? parar() : iniciar()));
+
+    // arrastar o dedo no celular
+    let inicioX = null;
+    track.addEventListener("pointerdown", (e) => { if (e.pointerType !== "mouse") inicioX = e.clientX; });
+    track.addEventListener("pointerup", (e) => {
+      if (inicioX === null) return;
+      const dx = e.clientX - inicioX;
+      inicioX = null;
+      if (Math.abs(dx) > 50) { mostrar(atual + (dx < 0 ? 1 : -1)); reiniciar(); }
+    });
+    track.addEventListener("pointercancel", () => { inicioX = null; });
+
+    mostrar(0);
+    iniciar();
+  }
+
+  // abre com uma animação de altura em vez de empurrar a página de uma vez
+  void section.offsetHeight;
+  section.classList.add("is-open");
 }
