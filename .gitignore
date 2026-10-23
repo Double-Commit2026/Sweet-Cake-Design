@@ -1,5 +1,5 @@
 # Variáveis de ambiente / credenciais
-.env.*
+.env
 local.env
 
 # Banco de dados
