@@ -33,28 +33,16 @@ def reais(valor):
 # ----------------------------------------------------------------------
 BANNERS = [
     {
-        "chamada": "Especial de",                       # opcional: linha manuscrita acima do título
-        "titulo": "Páscoa",
+        "chamada": "feliz",                       # opcional: linha manuscrita acima do título
+        "titulo": "Natal",
         "descricao": "O sabor da Páscoa em cada detalhe! Nossos ovos de colher são feitos com muito carinho, combinando sabores especiais e uma apresentação encantadora.",
-        "imagem_url": "assets/images/Bolo_Coração_Homem-Aranha.webp",   # define imagem destaque
+        "imagem_url": "assets/images/banner/Bolo_Coração_Homem-Aranha.webp",   # define imagem destaque
         "botao_texto": "Fazer meu pedido",               # opcional (padrão: "Fazer meu pedido")
         "mensagem_whatsapp": "Olá! Gostaria de fazer um pedido de Páscoa.",  # opcional
                                                         # opcional: aparece a partir deste dia                        
                                                         # opcional: some depois deste dia
-        "ativo": True,                                  # opcional: False deixa o banner guardado, mas escondido
+        "ativo": False,                                  # opcional: False deixa o banner guardado, mas escondido
     },
-    {
-        "chamada": "Adoce seu dia",                       # opcional: linha manuscrita acima do título
-        "titulo": "Morango Cravejado",
-        "descricao": "O sabor de um sonho na palma da sua mão! moranguinho cravejadinho.",
-        "imagem_url": "assets/images/bolo-sherek.webp",   # define imagem destaque
-        "botao_texto": "Fazer meu pedido",               # opcional (padrão: "Fazer meu pedido")
-        "mensagem_whatsapp": "Olá! gostaria de encomendar o meu pedaço de mal caminho.",  # opcional
-                                                        # opcional: aparece a partir deste dia                        
-                                                        # opcional: some depois deste dia
-        "ativo": True,                                  # opcional: False deixa o banner guardado, mas escondido
-    },
-    
 ]
 
 
