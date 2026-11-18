@@ -35,22 +35,6 @@ function initHeroCarousel() {
   let atual = 0;
   let timer = null;
 
-  const dotsWrap = document.createElement("div");
-  dotsWrap.className = "hero-carousel__dots";
-  const dots = slides.map((_, i) => {
-    const b = document.createElement("button");
-    b.type = "button";
-    b.className = "hero-carousel__dot";
-    b.setAttribute("aria-label", `Ver foto ${i + 1} de ${slides.length}`);
-    b.addEventListener("click", () => {
-      mostrar(i);
-      parar();
-      iniciar();
-    });
-    dotsWrap.appendChild(b);
-    return b;
-  });
-  root.appendChild(dotsWrap);
 
   function mostrar(i) {
     atual = (i + slides.length) % slides.length;
@@ -58,8 +42,6 @@ function initHeroCarousel() {
       const ativo = idx === atual;
       slide.classList.toggle("is-active", ativo);
       slide.setAttribute("aria-hidden", ativo ? "false" : "true");
-      dots[idx].classList.toggle("is-active", ativo);
-      dots[idx].setAttribute("aria-current", ativo ? "true" : "false");
     });
   }
 
