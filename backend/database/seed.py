@@ -296,6 +296,15 @@ def seed():
             ordem=7,
             imagem_url="assets/images/bolo_cobertura.webp"
             )
+
+        add_fixed_product(
+            "bolos-caseiros", 
+            "Fluffy Cake",
+            "Massa de chocolate fofinha com recheio de chocolate e cobertura de mousse de ninho!", 
+            25.00,  
+            ordem=8,
+            imagem_url="assets/images/Fluffy-Cake.webp"
+            )
         
 
         # Pão de batata
