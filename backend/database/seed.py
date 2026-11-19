@@ -41,7 +41,7 @@ BANNERS = [
         "mensagem_whatsapp": "Olá! Gostaria de pedir um morango cravejado",  # opcional
         "data_inicio": "2026-10-22",                                                # opcional: aparece a partir deste dia -> "data_inicio": "2026-10-22"                     
         "data_fim": "2026-12-31",                                                # opcional: some depois deste dia -> "data_fim": "2026-12-31"
-        "ativo": True,                                  # opcional: False deixa o banner guardado, mas escondido
+        "ativo": False,                                  # opcional: False deixa o banner guardado, mas escondido
     },
 ]
 
