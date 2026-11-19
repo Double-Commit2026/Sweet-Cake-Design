@@ -257,7 +257,7 @@ def seed():
             "Bolo caseiro, massa fofinha para acompanhar aquele café.", 
             25.00, 
             ordem=3,            
-            imagem_url="assets/images/bolo-mesclado.jpeg"
+            imagem_url="assets/images/bolo-mesclado.webp"
             )
         
         add_fixed_product(
@@ -276,7 +276,7 @@ def seed():
             "Massa fofinha e amanteigada, com gostinho caseiro. Serve 4 pessoas.", 
             32.00,
             ordem=5,
-            imagem_url="assets/images/bolo-caseiro-manteiga.jpeg"
+            imagem_url="assets/images/bolo-caseiro-manteiga.webp"
             )
         
         add_fixed_product(
@@ -546,7 +546,7 @@ def seed():
         # --- Mini cake ---
         p = add_configurable_product(
             "bolos", "Mini Cake",
-            "Bolo pequeno com decoração mais sofisticada, com bordinha e lacinhos.", ordem=2, imagem_url="assets/images/mini-cake.jpeg")
+            "Bolo pequeno com decoração mais sofisticada, com bordinha e lacinhos.", ordem=2, imagem_url="assets/images/mini-cake.webp")
         add_variant(p, "Redondo 10cm", 60.00, ordem=1)
         add_variant(p, "Redondo 12cm", 70.00, ordem=2)
         add_variant(p, "Coração 10cm", 60.00, ordem=3)
@@ -572,7 +572,7 @@ def seed():
         # --- Bolo Coração ---
         p = add_configurable_product(
             "bolos", "Bolo Coração",
-            "Bolo em formato de coração, em diversos tamanhos e números de camadas.", ordem=4, imagem_url="assets/images/bolo-coracao.jpeg")
+            "Bolo em formato de coração, em diversos tamanhos e números de camadas.", ordem=4, imagem_url="assets/images/bolo-coracao.webp")
         add_variant(p, "13cm · 3 camadas de bolo e 2 de recheio", 165.00, serve=6, ordem=1)
         add_variant(p, "20cm · 2 camadas de bolo e 1 de recheio", 200.00, serve=18, ordem=2)
         add_variant(p, "20cm · 3 camadas de bolo e 2 de recheio", 300.00, serve=25, ordem=3)
