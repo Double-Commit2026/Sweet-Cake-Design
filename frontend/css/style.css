@@ -455,6 +455,10 @@ p { margin: 0 0 1em; color: var(--color-text); }
   align-items: center;
 }
 
+.search label .icon { 
+  font-size: 22px; 
+}
+
 .search__clear {
   background: none;
   border: none;
@@ -463,10 +467,6 @@ p { margin: 0 0 1em; color: var(--color-text); }
   padding: 4px;
   line-height: 1;
   cursor: pointer;
-}
-
-.search__clear .material-symbols-outlined {
-  font-size: 20px;
 }
 
 .search__results {
@@ -1211,9 +1211,9 @@ p { margin: 0 0 1em; color: var(--color-text); }
   margin-bottom: 8px;
 }
 
-.contact-card__title .material-symbols-outlined {
-  font-size: 22px;
-  color: #ffd7e4;
+.contact-card__title .icon { 
+  font-size: 22px; 
+  color: #ffd7e4; 
 }
 
 .contact-card h4 {
@@ -1312,11 +1312,16 @@ body:has(.overlay.is-open) .floating-cart { /* "Escuta" o estado do card de carr
   display: flex;
   flex-direction: column;
   transform: translateY(100%);
-  transition: transform 0.3s ease;
+  visibility: hidden;
+  transition: transform 0.3s ease, visibility 0s linear 0.3s;
   box-shadow: 0 -10px 30px rgba(58,20,34,0.25);
 }
 
-.sheet.is-open { transform: translateY(0); }
+.sheet.is-open { 
+  transform: translateY(0);
+  visibility: visible;
+  transition: transform 0.3s ease, visibility 0s;
+}
 
 .sheet__header {
   display: flex;
