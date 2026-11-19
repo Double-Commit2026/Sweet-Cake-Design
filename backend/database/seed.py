@@ -36,7 +36,7 @@ BANNERS = [
         "chamada": "Novidade do momento",                       # opcional: linha manuscrita acima do título
         "titulo": "Morango Cravejado",
         "descricao": "Morango coberto com brigadeiro de ninho e chocolate branco, com pequenos pedaços de caramelo!",
-        "imagem_url": "assets/images/banner/morango_cravejado.png",   # define imagem destaque 723 x 519
+        "imagem_url": "assets/images/banner/morango_cravejado.webp",   # define imagem destaque 723 x 519
         "botao_texto": "Fazer meu pedido",               # opcional (padrão: "Fazer meu pedido")
         "mensagem_whatsapp": "Olá! Gostaria de pedir um morango cravejado",  # opcional
         "data_inicio": "2026-10-22",                                                # opcional: aparece a partir deste dia -> "data_inicio": "2026-10-22"                     
