@@ -1193,16 +1193,6 @@ p { margin: 0 0 1em; color: var(--color-text); }
   padding: 20px;
 }
 
-.contact-card h4 {
-  font-family: var(--font-body);
-  font-weight: 600;
-  color: #fff;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin: 0 0 8px;
-}
-
 /* Título + ícone */
 .contact-card__title {
   display: flex;
@@ -1216,7 +1206,7 @@ p { margin: 0 0 1em; color: var(--color-text); }
   color: #ffd7e4; 
 }
 
-.contact-card h4 {
+.contact-card h3 {
   font-family: var(--font-body);
   font-weight: 600;
   color: #fff;
