@@ -13,7 +13,7 @@
   --color-turquoise: #5fc2bc;
   --color-amber: #e8a24a;
   --color-text: #3a2e30;
-  --color-text-secondary: #7a6a63;
+  --color-text-secondary: #6a5a53;
   --color-border: #ecdfd2;
   --color-success: #4b8b6f;
   --color-danger: #b3432f;
@@ -115,7 +115,7 @@ p { margin: 0 0 1em; color: var(--color-text); }
 .section-eyebrow {
   font-family: var(--font-script);
   font-size: 1.4rem;
-  color: var(--color-primary);
+  color: #a82b58;
   margin: 0 0 -6px;
   display: block;
 }
@@ -158,7 +158,7 @@ p { margin: 0 0 1em; color: var(--color-text); }
 .btn--primary:hover { background: var(--color-primary-dark); transform: translateY(-1px); }
 
 .btn--whatsapp {
-  background: #2fae5b;
+  background: #1a7f45;
   color: #fff;
 }
 .btn--whatsapp:hover { background: #268f4a; transform: translateY(-1px); }
